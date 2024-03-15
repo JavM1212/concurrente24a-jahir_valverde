@@ -1,6 +1,6 @@
 /**
  * @brief   Para no ser redundante, la documentacion individual de cada 
- *          funcion esta en el .c. Pero en general, el pseudo debe ser 
+ *          funcion esta en el .h. Pero en general, el pseudo debe ser 
  *          mas lenguaje natural que un lenguaje conocido. Y se aprovecha a la 
  *          hora de programar como los planos del codigo
  */
