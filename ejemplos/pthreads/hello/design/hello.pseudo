@@ -1,16 +1,15 @@
 /**
- * @brief   Funcion ejecutada por hilo principal. Crea un nuevo hilo que llama 
- *          al procedimiento greet
-*/
+ * @brief   Para no ser redundante, la documentacion individual de cada 
+ *          funcion esta en el .c. Pero en general, el pseudo debe ser 
+ *          mas lenguaje natural que un lenguaje conocido. Y se aprovecha a la 
+ *          hora de programar como los planos del codigo
+ */
+
 procedure main
     create_thread(greet)
     print "Hello from main thread"
 end procedure
 
-/**
- * @brief   Esta funcion es ejecutada por un hilo secundario, creado por el 
- *          hilo principal
-*/
 procedure greet
     print "Hello from secondary thread"
 end procedure
