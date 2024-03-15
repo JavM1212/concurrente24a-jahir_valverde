@@ -1,0 +1,16 @@
+/**
+ * @brief   Funcion corrida por hilo principal. Crea un nuevo hilo que llama 
+ *          al procedimiento greet
+ */
+procedure main() {
+    create_thread(greet);
+    print("Hello from main thread");
+} end procedure
+
+/**
+ * @brief   Esta funcion es ejecutada por un hilo secundario, creado por el 
+ *          hilo principal
+ */
+procedure greet() {
+    print("Hello from secondary thread");
+} end procedure
