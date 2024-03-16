@@ -1,0 +1,8 @@
+/**
+ * @brief   ...
+ */
+
+procedure main
+    create_thread(greet)
+    print "Hello from main thread"
+end procedure
