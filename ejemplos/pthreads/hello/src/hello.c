@@ -1,3 +1,5 @@
+// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
+
 #include "hello.h"
 
 // procedure main
