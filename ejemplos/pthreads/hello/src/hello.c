@@ -5,7 +5,9 @@
 // procedure main
 int main(void) {
     // create_thread(greet)
-    pthread_t thread;
+    pthread_t thread;   // no es necesario inicializarlo porque de eso se 
+                        // encarga phtrad_create
+    // si phtread_create devuelve un int distinto  0 es que dio error 
     int error = pthread_create(&thread, /*attr*/ NULL, greet, /*arg*/ NULL);
     if (error == EXIT_SUCCESS) {
         // print "Hello from main thread"
