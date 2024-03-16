@@ -1,5 +1,4 @@
 # Glosario
----
 1. Programación serial -> Cada instruccion se ejecuta solo cuando la pasada
 ya termino
 ---
