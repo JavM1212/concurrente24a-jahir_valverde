@@ -1,8 +1,13 @@
-/**
- * @brief   ...
- */
-
 procedure main
-    create_thread(greet)
-    print "Hello from main thread"
+  nieto1 = create_thread(gen_num)
+  nieto2 = create_thread(gen_num)
+
+  numero1 = join_thread(nieto1);
+  numero2 = join_thread(nieto2);
+
+  print numero1, numero2
+end procedure
+
+procedure gen_num
+  return random_number()
 end procedure
