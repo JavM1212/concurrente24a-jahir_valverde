@@ -10,15 +10,15 @@
 
 /**
  * @brief   Este procedimiento imprime un mensaje en la salida estandar. Es
- *          ejecutado por un hilo secundario.
- */
-void* greet(void* data);
-
-/**
- * @brief   Este procedimiento imprime un mensaje en la salida estandar. Es
  *          ejecutado por un hilo principal.
  */
 //  procedure main
 int main(void);
+
+/**
+ * @brief   Este procedimiento imprime un mensaje en la salida estandar. Es
+ *          ejecutado por un hilo secundario.
+ */
+void* greet(void* data);
 
 #endif  // CONCURRENTE24A_JAHIR_VALVERDE_EJEMPLOS_PTHREADS_HELLO_SRC_HELLO_H_
