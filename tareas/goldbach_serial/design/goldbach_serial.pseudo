@@ -1,0 +1,32 @@
+procedure main()
+  input_arr = read_input()
+  valid = validate_input(input_arr)
+
+  if valid not false
+    salida = calc_goldbach(input_arr)
+    print salida
+  else
+    print "only integer inputs are accepted"
+
+  return success
+end procedure
+
+procedure read_input()
+  return stdin()
+end procedure
+
+procedure validate_input(input_arr)
+  for el in input_arr
+    if type(el) not integer
+      return false
+
+  return true
+end procedure
+
+procedure calc_goldbach(input_arr)
+  for el in input_arr
+    if el % 2 = 0
+      even_goldbach(el)
+    else
+      odd_goldbach(el)
+end procedure
