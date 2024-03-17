@@ -1,4 +1,4 @@
-// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
+/// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
 
 #ifndef GRANDMA_LOTTERY_H_
 #define GRANDMA_LOTTERY_H_
@@ -51,4 +51,4 @@ void* gen_num_v1(void* data);
  */
 void* gen_num_v2(void* data);
 
-#endif  // GRANDMA_LOTTERY_H_
+#endif  /// GRANDMA_LOTTERY_H_
