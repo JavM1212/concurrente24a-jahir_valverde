@@ -1,4 +1,4 @@
-// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
+/// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
 
 #ifndef HELLO_H_
 #define HELLO_H_
@@ -12,7 +12,7 @@
  * @brief   Este procedimiento imprime un mensaje en la salida estandar. Es
  *          ejecutado por un hilo principal.
  */
-//  procedure main
+///  procedure main
 int main(void);
 
 /**
@@ -21,4 +21,4 @@ int main(void);
  */
 void* greet(void* data);
 
-#endif  // HELLO_H_
+#endif  /// HELLO_H_
