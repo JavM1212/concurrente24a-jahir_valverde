@@ -14,7 +14,9 @@ ser paralela, o simplemente a destiempo
 6. Hilo de ejecución -> "Worker" que permite ejecutar conjuntos de instrucciones
 de manera simultanea 
 ---
-7. Indeterminismo -> 
+7. Indeterminismo -> El indeterminismo es una caracteristica de la concurrencia
+, en la cual no se puede predecir que va a pasar, aun introduciendo las mismas
+entradas
 ---
 8. Memoria privada y compartida
 ---
