@@ -34,7 +34,7 @@ typedef struct input {
   int* input_arr;
   int size;
   goldbach_sum_t* goldbach_sums;
-} input_t;  /// end type
+} input_t;
 
 int main();
 
