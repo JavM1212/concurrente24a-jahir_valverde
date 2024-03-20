@@ -21,9 +21,9 @@ los registros de la CPU y permiten ejecutar codigo
 entradas
 ---
 8. Memoria privada y compartida -> En la memoria compartida, se declaran las 
-variables en el segmento de datos por lo que varios hilos pueden usar el mismo
-recurso y modificarlo. En cambio, en la memoria privada, cada hilo tiene 
-su registro privado y solo puede modificar lo que le corresponde
+variables en las cuales varios hilos pueden usar el mismo recurso y modificarlo.
+En cambio, en la memoria privada, cada hilo tiene su registro privado (como una
+copia) y solo puede modificar lo que le corresponde
 ---
 9. Espera activa
 ---
