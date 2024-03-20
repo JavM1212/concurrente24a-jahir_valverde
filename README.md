@@ -11,8 +11,8 @@ ser paralela, o simplemente a destiempo
 ---
 5. Paralelismo de datos -> 
 ---
-6. Hilo de ejecución -> "Worker" que permite ejecutar conjuntos de instrucciones
-de manera simultanea 
+6. Hilo de ejecución -> Arreglo de valores que el sistema operativo carga en 
+los registros de la CPU y permiten ejecutar codigo.
 ---
 7. Indeterminismo -> El indeterminismo es una caracteristica de la concurrencia
 , en la cual no se puede predecir que va a pasar, aun introduciendo las mismas
