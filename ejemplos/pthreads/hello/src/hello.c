@@ -28,14 +28,14 @@
  *        trabajo (stack frame)
  *        
  */
-int error = 0; 
+int error = 0;
 
 int main(void) {
   /**
    * @brief no es necesario inicializarlo porque de eso se encarga phtrad_create
    * 
    */
-  pthread_t thread;   
+  pthread_t thread;
 
   /**
    * @brief Cuando se invoca pthread_create, se le dice al sistema operativo que 
@@ -84,18 +84,18 @@ int main(void) {
      *        principal.
      *  
      */
-    usleep(1);  
+    usleep(1);
 
     fprintf(stdout, "Hello from main thread\n");  /// stdout
     /// "Equivalente" al destroy para threads, permite almacenar valores
     /// de retorno y evita condiciones de carrera
-    pthread_join(thread, /*value_ptr*/ NULL);   
+    pthread_join(thread, /*value_ptr*/ NULL);
   } else {
       fprintf(stderr, "Could not create secondary thread\n");  /// stderr
   }
 
   return error;  /// devolver el error al sistema operativo
-} 
+}
 
 /// funcion que es llamada por el hilo secundario
 void* greet(void* data) {
