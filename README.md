@@ -20,7 +20,12 @@ los registros de la CPU y permiten ejecutar codigo.
 , en la cual no se puede predecir que va a pasar, aun introduciendo las mismas
 entradas
 ---
-8. Memoria privada y compartida
+8. Memoria privada y compartida -> En la memoria compartida, se declaran las 
+variables en el segmento de datos (variables globales y externas). Esto es
+no es deseable porque varios hilos pueden usar el  mismo recurso. Para resolver
+esto se usa la memoria privada, en la que cada hilo tiene su registro privado
+en la que normalmente conoce quien es y cuantos hilos hay. Creando un "thread
+team"
 ---
 9. Espera activa
 ---
