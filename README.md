@@ -14,18 +14,17 @@ distintos asuntos concurrentemente
 concurrentemente, promoviendo el incremento de desempeno
 ---
 6. Hilo de ejecución -> Arreglo de valores que el sistema operativo carga en 
-los registros de la CPU y permiten ejecutar codigo.
+los registros de la CPU y permiten ejecutar codigo
 ---
 7. Indeterminismo -> El indeterminismo es una caracteristica de la concurrencia
 , en la cual no se puede predecir que va a pasar, aun introduciendo las mismas
 entradas
 ---
 8. Memoria privada y compartida -> En la memoria compartida, se declaran las 
-variables en el segmento de datos (variables globales y externas). Esto es
-no es deseable porque varios hilos pueden usar el  mismo recurso. Para resolver
-esto se usa la memoria privada, en la que cada hilo tiene su registro privado
-en la que normalmente conoce quien es y cuantos hilos hay. Creando un "thread
-team"
+variables en el segmento de datos (variables globales y externas) por lo que 
+varios hilos pueden usar el  mismo recurso y modificarlo. En cambio, en la
+memoria privada, cada hilo tiene su registro privado y solo puede modificar
+lo que le corresponde
 ---
 9. Espera activa
 ---
