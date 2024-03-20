@@ -1,0 +1,17 @@
+procedure main
+  /**
+   * @brief A nivel de pseudocodigo basta con poner la palabra share para que
+   *        se entienda que es memoria compartida. Haciendo esto podemos 
+   *        acceder al subproceso sin tener que enviarlo como argumento
+   *        porque se entiende que todos los hilos tienen acceso a la variable
+   */
+  shared thread_count := integer(argv[1])
+  for thread_number:= 0 to thread_count do
+    create_thread(greet, thread_number) /// thread team 
+  end for
+  print "Hello from main thread"
+end procedure
+
+procedure greet(thread_number)
+  print "Hello from secondary thread ", thread_number, " of ", thread_count
+end procedure
