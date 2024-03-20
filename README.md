@@ -7,9 +7,11 @@ ser paralela, o simplemente a destiempo
 ---
 3. Programación paralela -> Se ejecutan varios procedimientos a la vez
 --- 
-4. Concurrencia de tareas -> 
+4. Concurrencia de tareas -> Es una tecnica utilizada para encargarse de 
+distintos asuntos concurrentemente
 ---
-5. Paralelismo de datos -> 
+5. Paralelismo de datos -> Es una tecnica utilizado para analizar varios datos
+concurrentemente, promoviendo el incremento de desempeno
 ---
 6. Hilo de ejecución -> Arreglo de valores que el sistema operativo carga en 
 los registros de la CPU y permiten ejecutar codigo.
