@@ -1,0 +1,23 @@
+procedure main
+  create thread_count as result of converting argv[1] to integer
+  create_thread(read)
+  for thread_number:= 0 to thread_count do
+  /// Paralelismo de datos -> incremento de desempeno
+    create_thread(calculate)
+  end for
+  /// Concurrencia de tareas -> separacion de asuntos
+  create_thread(merge)
+  create_thread(print)
+end procedure
+
+procedure read()
+  print "Hello from secondary thread ", thread_number
+end procedure
+ 
+procedure calculate(thread_number)
+  print "Hello from secondary thread ", thread_number
+end procedure
+
+procedure merge()
+  print "Hello from secondary thread ", thread_number
+end procedure
