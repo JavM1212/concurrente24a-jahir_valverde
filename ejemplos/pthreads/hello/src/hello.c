@@ -45,11 +45,23 @@ int main(void) {
    *        El scheduler es el que se encarga de crear hilos y sirve con
    *        una maquina de estados que se puede ver en @ref scheduler.png
    * 
+   *        Estado new:
    *        El PC (program counter), direccion de memoria al segmento de codigo
    *        donde se encuentra la proxima instruccion que se debe ejecutar
    *        El RSP (regiser stack counter), direccion de memoria al segmento
    *        de pila donde se encuentra el inicio de pila apartado para el hilo
    *        actual
+   * 
+   *        Luego de settear esta data, esto pasa la info a una cola que se 
+   *        llama ready, donde espera a que se le asignen recursos de CPU
+   *        Cuando se llega al tope de la cola, es transferido a la cola 
+   *        running, la cual carga un hilo de ejecucion en una CPU. Esto
+   *        transfiriendo los valores de la RAM (PC, RSP, etc) a los registros
+   *        de la CPU. Ademas le indica a la CPU que continue el ciclo 
+   *        de instrucciones.
+   *        
+   *        Cuando dos o mas hilos quieren compartir el mismo recurso (por 
+   *        ejemplo el stdout), se genera una condicion de carrera
    * 
    */
   error = pthread_create(&thread, /*attr*/ NULL, greet, /*arg*/ NULL);
