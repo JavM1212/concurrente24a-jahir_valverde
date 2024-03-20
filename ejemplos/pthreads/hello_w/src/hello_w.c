@@ -4,7 +4,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
+#include <inttypes.h>
 
 void* greet(void* data);
 
@@ -27,53 +29,54 @@ int main(int argc, char* argv[]) {
 
   int error = EXIT_SUCCESS;
 
-  long thread_count = 0;
+  int64_t thread_count = sysconf(_SC_NPROCESSORS_ONLN);
   /// forma conveniente de pasar char* a long
   // assert(argc == 2); /// Error orientado a desarrollador
   if  (argc == 2) {  /// Error orientado a usuario
-    if ((sscanf(argv[1], "%ld", &thread_count)) == 1) {
-      /**
-       * @brief este arreglo de hilos se esta creando en la pila. Por esto
-       *        para numeros muy grandes se provoca un desbordamiento. El
-       *        maximo de memoria para pila en sistemas unix es 8MB
-       * 
-       *        Para evitar esto es mejor reservar memoria dinamica 
-       * 
-       */
-      // pthread_t threads[thread_count];
-      pthread_t* threads = (pthread_t*) calloc(thread_count, sizeof(pthread_t));
-
-      if (threads) {
-        /**
-         * @brief Como este programa es concurrente, presenta indeterminismo
-         *        ya que no se puede determinar con certeza cual hilo va 
-         *        primero que 
-         * 
-         */
-
-        /// for para crear los threads
-        for (long thread_number = 0; thread_number < thread_count
-          ; thread_number++) {
-          error = pthread_create(&threads[thread_number], /*attr*/ NULL, greet
-            , /*arg*/ (void*) thread_number);
-        }
-
-        fprintf(stdout, "Hello from main thread\n");
-
-        /// for para joinearlos al ciclo principal
-        for (long thread_number = 0; thread_number < thread_count
-          ; thread_number++) {
-          pthread_join(threads[thread_number], /*value_ptr*/ NULL);
-        }
-
-        free(threads);
-      }
-    } else {
-      fprintf(stderr, "Invalid thread count\n");
-      error = EXIT_FAILURE;
+    if (!((sscanf(argv[1], "%" SCNu64, &thread_count)) == 1)) {
+      fprintf(stderr, "Error: invalid thread count\n");
+      return EXIT_FAILURE;
     }
+  }
+
+  /**
+   * @brief este arreglo de hilos se esta creando en la pila. Por esto
+   *        para numeros muy grandes se provoca un desbordamiento. El
+   *        maximo de memoria para pila en sistemas unix es 8MB
+   * 
+   *        Para evitar esto es mejor reservar memoria dinamica 
+   * 
+   */
+  // pthread_t threads[thread_count];
+  pthread_t* threads = (pthread_t*) calloc(thread_count, sizeof(pthread_t));
+
+  if (threads) {
+    /**
+     * @brief Como este programa es concurrente, presenta indeterminismo
+     *        ya que no se puede determinar con certeza cual hilo va 
+     *        primero que 
+     * 
+     */
+
+    /// for para crear los threads
+    for (int64_t thread_number = 0; thread_number < thread_count
+      ; thread_number++) {
+      error = pthread_create(&threads[thread_number], /*attr*/ NULL, greet
+        , /*arg*/ (void*) thread_number);
+    }
+
+    fprintf(stdout, "Hello from main thread\n");
+
+    /// for para joinearlos al ciclo principal
+    for (int64_t thread_number = 0; thread_number < thread_count
+      ; thread_number++) {
+      pthread_join(threads[thread_number], /*value_ptr*/ NULL);
+    }
+
+    free(threads);
+  
   } else {
-      fprintf(stderr, "Usage: ./bin/hellow_w.c thread_count\n");
+    fprintf(stderr, "Usage: ./bin/hellow_w.c thread_count\n");
   }
 
 
@@ -82,7 +85,7 @@ int main(int argc, char* argv[]) {
 
 void* greet(void* data) {
   /// Se usa rank por convencion
-  const long rank = (long) data;
+  const int64_t rank = (int64_t) data;
 
   fprintf(stdout, "Hello from secondary thread %ld\n", rank);
   return NULL;
