@@ -1,3 +1,5 @@
+/// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
+
 /// 1. Su archivo solución debe tener extensión .cpp
 
 /// 10. Elimine los encabezados dependientes del sistema operativo.
@@ -91,6 +93,6 @@ void greet(private_data_t* private_data) {
   std::lock_guard<std::mutex> lock(shared_data->cout_mutex);
 
     /// 7. Cambie la entrada y salida de C por la genérica de C/C++.
-  std::cout << "Hello from secondary thread " << private_data->thread_number 
+  std::cout << "Hello from secondary thread " << private_data->thread_number
     << " of " << shared_data->thread_count << "\n";
 }
