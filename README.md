@@ -19,7 +19,7 @@ los registros de la CPU y permiten ejecutar codigo
 7. Indeterminismo -> El indeterminismo es una caracteristica de la concurrencia
 , en la cual no se puede predecir que va a pasar, aun introduciendo las mismas
 entradas
----
+--- 
 8. Memoria privada y compartida -> Memoria compartida: se declaran variables
 de forma que todos los hilos pueden usar el mismo recurso. Esto tambien implica
 que cuando se hace una modificacion en la memoria compartida, todos los demas
