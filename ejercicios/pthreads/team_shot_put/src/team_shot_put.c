@@ -21,7 +21,7 @@ typedef struct best_shot_t {
 
   int64_t team;
   int64_t player_number;
-  int64_t id;  /// usado solamente para generar numeros aleatorios 
+  int64_t id;  /// usado solamente para generar numeros aleatorios
 
   shared_data_t* shared_data;
 } best_shot_t;
@@ -58,7 +58,8 @@ int main(int argc, char* argv[]) {
 
   /// callocs
   pthread_t* phthreads = (pthread_t*) calloc(2, sizeof(pthread_t));
-  shared_data_t* shared_data = (shared_data_t*) calloc(1, sizeof(shared_data_t));
+  shared_data_t* shared_data = (shared_data_t*) calloc(1
+    , sizeof(shared_data_t));
   /**
    * @brief best_shots es la pizarra donde los jugadores anotaron los 
    *        resultados. Luego el arbitro va a imprimir los resultados
@@ -76,7 +77,7 @@ int main(int argc, char* argv[]) {
       best_shots[i].shared_data = shared_data;
       best_shots[i].id = i * 100;
     }
-    
+
     /// crear hilos
     error = create_pthread_teams(shared_data, phthreads, best_shots);
   } else {
@@ -194,10 +195,12 @@ void arbitrar(best_shot_t* best_shots) {
   }
 
   for (int64_t best_shot = 0; best_shot < shared_data->count; best_shot++) {
-    if (best_shots[best_shot].best_shot > best_shots[best_shot + shared_data->count].best_shot) {
+    if (best_shots[best_shot].best_shot > best_shots[best_shot +
+      shared_data->count].best_shot) {
       pts[0]++;
-    } 
-    if (best_shots[best_shot].best_shot < best_shots[best_shot + shared_data->count].best_shot) {
+    }
+    if (best_shots[best_shot].best_shot < best_shots[best_shot +
+      shared_data->count].best_shot) {
       pts[1]++;
     }
   }
@@ -208,12 +211,13 @@ void arbitrar(best_shot_t* best_shots) {
   if (pts[0] < pts[1]) {
     winner = 2;
   }
-  
+
   if (winner != 0) {
-    fprintf(stdout, "result %" PRIu64 ":%" PRIu64 " team %" PRIu64 " wins\n", pts[0], pts[1], winner);
+    fprintf(stdout, "result %" PRIu64 ":%" PRIu64 " team %" PRIu64 " wins\n"
+      , pts[0], pts[1], winner);
   } else {
     fprintf(stdout, "result %" PRIu64 ":%" PRIu64 " DRAW\n", pts[0], pts[1]);
   }
 
-  free(pts);  
+  free(pts);
 }
