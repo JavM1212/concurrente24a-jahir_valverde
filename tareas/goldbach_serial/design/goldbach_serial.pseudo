@@ -1,3 +1,8 @@
+struct input 
+  int64_t* input_arr
+  int64_t size
+end struct
+
 struct goldbach_number 
   int64_t number
   int64_t amount_of_sums
@@ -5,89 +10,75 @@ struct goldbach_number
 end struct
 
 struct prime_numbers
-  int64_t amount
-  int64_t* numbers /// arreglo en memoria
+int64_t* prime_numbers /// arreglo en memoria
+int64_t size
 end struct
 
 procedure main
-  allocate array in memory input_list := receive_input()
+  input := receive_input()
+  initialize array with size of input->size: goldbach_numbers
 
-  allocate array in memory goldbach_numbers with the sizeof len(input_list)
-
-  for i := 0 to len(input_list) do
-    goldbach_numbers[i] = calc_goldbach_number(input_list[i])
+  for i := 0 to input->size do
+    goldbach_numbers[i] = calc_goldbach_number(input->input_arr[i])
   end for
 
   print_goldbach_numers(goldbach_numbers)
 end procedure
 
 procedure calc_goldbach_number(integer number)
-  allocate cell in memory goldbach_number
+  initialize cell: goldbach_number
   goldbach_number->number = number
+  goldbach_number->amount_of_sums = 0
+  goldbach_number->sums = 0
 
-  /// Determinar si es mayor que 5 (sino lo es, devuelve NA)
   if not (number > 5 or number < -5) do
-    goldbach_number->amount_of_sums = 0
-    goldbach_number->sums = 0
     return goldbach_number
   end if
 
+  initialize cell: is_negative
   if number < 0 do
     is_negative = -1
   else
     is negative = 1
   end if
 
-  /// Calcular los numeros primos menores numero con criba de eratostenes
-  allocate array in memory prime_numbers := calc_prime_numbers(number)
+  /// algoritmo de criba de eratostenes
+  prime_numbers := calc_prime_numbers(number)
 
-  initialize array in memory goldbach_number->sums
+  initialize: goldbach_number->sums
+
+  if number is even do
+    for i := 0 to len(prime_numbers) do
+      for j := i to len(prime_numbers) do
+          if (prime_numbers[i] + prime_numbers[j]) = number * is_negative do
+            add 1 to goldbach_number->amount_of_sums
+            if is_negative = -1 do
+              reallocate goldbach_number->sums adding 2 cells
+              goldbach_number[(goldbach_number->amount_of_sums - 1) * 2 + 0] =: prime_numbers[i]
+              goldbach_number[(goldbach_number->amount_of_sums - 1) * 2 + 1] =: prime_numbers[j]
+            end if
+          end if
+      end for  
+    end for
+  end if
+
   if number is odd do
     for i := 0 to len(prime_numbers) do
       for j := i to len(prime_numbers) do
           for k := j to len(prime_numbers) do
             if (prime_numbers[i] + prime_numbers[j] + prime_numbers[k]) = number * is_negative do
-              if is_negative = -1 do
-                reallocate goldbach_number->sums adding 3 blocks of the sizeof(struct goldbach_number)
-                goldbach_number[(goldbach_number->amount_of_sums * 3) + 0] =: prime_numbers[i]
-                goldbach_number[(goldbach_number->amount_of_sums * 3) + 1] =: prime_numbers[j]
-                goldbach_number[(goldbach_number->amount_of_sums * 3) + 2] =: prime_numbers[k]
-              else 
-                goldbach_number->sums = 0
-              end if
               add 1 to goldbach_number->amount_of_sums
+              if is_negative = -1 do
+                reallocate goldbach_number->sums adding 3 cells
+                goldbach_number[(goldbach_number->amount_of_sums - 1) * 3 + 0] =: prime_numbers[i]
+                goldbach_number[(goldbach_number->amount_of_sums - 1) * 3 + 1] =: prime_numbers[j]
+                goldbach_number[(goldbach_number->amount_of_sums - 1) * 3 + 2] =: prime_numbers[k]
+              end if
             end if
           end for
       end for  
     end for
   end if
 
-  if number is even do
-    for i := 0 to len(prime_numbers) do
-      for j := i to len(prime_numbers) do
-          if (prime_numbers[i] + prime_numbers[j]) = number * is_negative do
-            if is_negative = -1 do
-              reallocate goldbach_number->sums adding 2 blocks of the sizeof(struct goldbach_number)
-              goldbach_number[(goldbach_number->amount_of_sums * 2) + 0] =: prime_numbers[i]
-              goldbach_number[(goldbach_number->amount_of_sums * 2) + 1] =: prime_numbers[j]
-            else 
-              goldbach_number->sums = 0
-            end if
-            add 1 to goldbach_number->amount_of_sums
-          end if
-      end for  
-    end for
-  end if
-
   return goldbach_number
 end procedure
-
-/// Plan para calcular sumas de goldbach:
-/// 1. Recibir el numero
-/// 2. Determinar si es mayor que 5 (sino lo es, devuelve NA)
-/// 3. Calcular los numeros primos menores numero
-/// 4. Determinar si es par o impar
-///    1. Si es par, hacer for desde i = 0, j = i, e ir ingresando en una
-///       arreglo las sumas
-///    2. Si es impar, hacer for desde i = 0; j = i; k = j, e ir ingresando 
-///       en un arreglo las sumas

@@ -1,1 +1,4 @@
 @INCLUDE = ../../common/Doxyfile
+
+PROJECT_NAME = "Goldbach Sums"
+PROJECT_BRIEF = "Find Golbach sums of integers"
