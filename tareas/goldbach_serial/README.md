@@ -36,7 +36,7 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
   make clean
 
 ## Corrido
-./bin/goldbach_serial < tests/input001.txt
+./bin/goldbach_serial < tests/input_example.txt
 
 ## Inputs
 El input debe estar necesariamente en un archivo .txt. Hay un ejemplo en
