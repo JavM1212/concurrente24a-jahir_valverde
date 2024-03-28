@@ -21,17 +21,20 @@ int main() {
   }
 
   /// crear array de goldbach_number_t del tamano del input
-  goldbach_number_t* goldbach_numbers = (goldbach_number_t*) calloc(input->size, sizeof(goldbach_number_t));
-  if (!goldbach_numbers) {   
-    fprintf(stderr, "Error: Could not allocate goldbach_numbers in memory. errno: %i\n", errno);
-    return errno; 
+  goldbach_number_t* goldbach_numbers = (goldbach_number_t*) calloc(input->size
+  , sizeof(goldbach_number_t));
+  if (!goldbach_numbers) {
+    fprintf(stderr, "Error: Could not allocate goldbach_numbers in memory."
+      " errno: %i\n", errno);
+    return errno;
   }
 
   /// por cada celda del array, calcular las sumas de Goldbach
   for (int64_t i = 0; i < input->size; i++) {
     goldbach_numbers[i] = calc_goldbach_number(input->input_arr[i]);
     /// si calcular las sumas dio error, se va a identificar con estos codigos
-    if (goldbach_numbers[i].amount_of_sums == -1 || goldbach_numbers[i].amount_of_sums == -2 || goldbach_numbers[i].amount_of_sums == -3) {
+    if (goldbach_numbers[i].amount_of_sums == -1 || goldbach_numbers[i]
+      .amount_of_sums == -2 || goldbach_numbers[i].amount_of_sums == -3) {
       return errno;
     }
   }
@@ -47,13 +50,14 @@ int main() {
   free(input->input_arr);
   free(input);
   return errno;
-} 
+}
 
 input_t* read_input() {
-  input_t* input = (input_t*) calloc(1, sizeof(input_t)); 
+  input_t* input = (input_t*) calloc(1, sizeof(input_t));
   int64_t* input_arr = (int64_t*) calloc(1, sizeof(int64_t));
-  if (!(input && input_arr)) {  /// validar que se haya alocado la memoria correctamente
-    fprintf(stderr, "Error: Could not allocate input/input_arr in memory. errno: %i\n", errno);
+  if (!(input && input_arr)) {  /// validar memoria
+    fprintf(stderr, "Error: Could not allocate input/input_arr"
+      " in memory. errno: %i\n", errno);
     return NULL;
   }
 
@@ -61,7 +65,7 @@ input_t* read_input() {
 
   FILE* f_input = stdin;
   int64_t value = 0;
-  while(1) {
+  while (1) {
     if ((fscanf(f_input, "%" SCNd64, &value)) == 1) {
       input_arr[count] = value;
       count++;
@@ -76,7 +80,7 @@ input_t* read_input() {
         errno = 21;
         fprintf(stderr, "Error: invalid input. errno: %i\n", errno);
         return NULL;
-      } 
+      }
       /// si si fue por el EOF, no hay problema entonces solo salga del while
       /// infinito
       break;
@@ -93,7 +97,7 @@ input_t* read_input() {
 goldbach_number_t calc_goldbach_number(int64_t number) {
   goldbach_number_t goldbach_number = {number, 0, 0};  /// valores iniciales
 
-  /// si el valor absoluto del numero es menor que 5, no aplica para la 
+  /// si el valor absoluto del numero es menor que 5, no aplica para la
   /// conjetura de Goldbach, por lo que devolvemos con los valores inicales
   /// y se entiende que es NA
   if (!(number > 5 || number < -5)) {
@@ -110,7 +114,8 @@ goldbach_number_t calc_goldbach_number(int64_t number) {
   prime_numbers_t* prime_numbers = calc_prime_numbers(number * is_negative);
   if (!prime_numbers) {  /// y validamos que se hayan obtenido correctamente
     goldbach_number.amount_of_sums = -1;  /// codigo de error
-    fprintf(stderr, "Error: Could not calculate prime_numbers for nummber: %" PRId64 ". errno: %i\n", number, errno);
+    fprintf(stderr, "Error: Could not calculate prime_numbers for nummber:"
+      " %" PRId64 ". errno: %i\n", number, errno);
     return goldbach_number;
   }
 
@@ -119,20 +124,25 @@ goldbach_number_t calc_goldbach_number(int64_t number) {
     for (int64_t i = 0; i < prime_numbers->size; i++) {
       for (int64_t j = i; j < prime_numbers->size; j++) {
         /// se multiplica por el auxiliar is_negative por orden
-        if ((prime_numbers->prime_numbers[i] + prime_numbers->prime_numbers[j]) == (number * is_negative)) {
+        if ((prime_numbers->prime_numbers[i] + prime_numbers->prime_numbers[j])
+          == (number * is_negative)) {
           /// se incrementa la cantidad de sumas encontradas
           goldbach_number.amount_of_sums++;
           /// si es negativo se debe hacer el "desglose"
           if (is_negative == -1) {
             /// entonces reservamos mas memoria
-            goldbach_number.sums = (int64_t*) realloc(goldbach_number.sums, sizeof(int64_t) * 2 * goldbach_number.amount_of_sums);
-            if (goldbach_number.sums) {  /// y si la reserva fue exitosa 
+            goldbach_number.sums = (int64_t*) realloc(goldbach_number.sums
+              , sizeof(int64_t) * 2 * goldbach_number.amount_of_sums);
+            if (goldbach_number.sums) {  /// y si la reserva fue exitosa
               /// asignamos los valores
-              goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 2 + 0] = prime_numbers->prime_numbers[i];
-              goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 2 + 1] = prime_numbers->prime_numbers[j];
-            } else { /// si no fue exitosa
+              goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 2 + 0]
+                = prime_numbers->prime_numbers[i];
+              goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 2 + 1]
+                = prime_numbers->prime_numbers[j];
+            } else {  /// si no fue exitosa
               goldbach_number.amount_of_sums = -2;  /// codigo de error
-              fprintf(stderr, "Error: Could not allocate goldach_numbers[i].sums in memory. errno: %i\n", errno);
+              fprintf(stderr, "Error: Could not allocate goldach_numbers[i]."
+                " sums in memory. errno: %i\n", errno);
               return goldbach_number;
             }
           }
@@ -143,17 +153,23 @@ goldbach_number_t calc_goldbach_number(int64_t number) {
     for (int64_t i = 0; i < prime_numbers->size; i++) {
       for (int64_t j = i; j < prime_numbers->size; j++) {
         for (int64_t k = j; k < prime_numbers->size; k++) {
-          if ((prime_numbers->prime_numbers[i] + prime_numbers->prime_numbers[j] + prime_numbers->prime_numbers[k]) == (number * is_negative)) {
+          if ((prime_numbers->prime_numbers[i] + prime_numbers->prime_numbers[j]
+           + prime_numbers->prime_numbers[k]) == (number * is_negative)) {
             goldbach_number.amount_of_sums++;
             if (is_negative == -1) {
-              goldbach_number.sums = (int64_t*) realloc(goldbach_number.sums, sizeof(int64_t) * 3 * goldbach_number.amount_of_sums);
+              goldbach_number.sums = (int64_t*) realloc(goldbach_number.sums
+              , sizeof(int64_t) * 3 * goldbach_number.amount_of_sums);
               if (goldbach_number.sums) {
-                goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 3 + 0] = prime_numbers->prime_numbers[i];
-                goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 3 + 1] = prime_numbers->prime_numbers[j];
-                goldbach_number.sums[(goldbach_number.amount_of_sums - 1) * 3 + 2] = prime_numbers->prime_numbers[k];
+                goldbach_number.sums[(goldbach_number.amount_of_sums - 1)
+                  * 3 + 0] = prime_numbers->prime_numbers[i];
+                goldbach_number.sums[(goldbach_number.amount_of_sums - 1)
+                  * 3 + 1] = prime_numbers->prime_numbers[j];
+                goldbach_number.sums[(goldbach_number.amount_of_sums - 1)
+                  * 3 + 2] = prime_numbers->prime_numbers[k];
               } else {
                 goldbach_number.amount_of_sums = -3;
-                fprintf(stderr, "Error: Could not allocate goldach_numbers[i].sums in memory. errno: %i\n", errno);
+                fprintf(stderr, "Error: Could not allocate goldach_numbers[i]."
+                  " sums in memory. errno: %i\n", errno);
                 return goldbach_number;
               }
             }
@@ -170,23 +186,25 @@ goldbach_number_t calc_goldbach_number(int64_t number) {
 }
 
 prime_numbers_t* calc_prime_numbers(int64_t number) {
-  prime_numbers_t* prime_numbers = (prime_numbers_t*) calloc(1, sizeof(prime_numbers_t));
+  prime_numbers_t* prime_numbers = (prime_numbers_t*) calloc(1
+  , sizeof(prime_numbers_t));
   int64_t* prime_numbers_aux = (int64_t*) calloc(number + 1, sizeof(int64_t));
   bool* sieve = (bool*) calloc(number + 1, sizeof(bool));
   if (!(prime_numbers && prime_numbers_aux && sieve)) {  /// validamos
-    fprintf(stderr, "Error: Could not allocate prime_numbers/prime_numbers_aux/sieve in memory. errno: %i\n", errno);
+    fprintf(stderr, "Error: Could not allocate prime_numbers/prime_numbers_aux"
+      " /sieve in memory. errno: %i\n", errno);
     return NULL;
   }
 
   int64_t count = 0;
 
-  for (int64_t i = 2; i <= number; i++) {  /// seteamos la criba en true para cada numero
+  for (int64_t i = 2; i <= number; i++) {  /// settear criba en true
     sieve[i] = true;
   }
 
   for (int64_t i = 2; i <= number; i++) {
-    if (sieve[i] == true) {  /// desde cada primo (o sea que este en true) marcamos todos sus multiplos como no primos
-      for (int64_t j = i + i; j <= number; j += i) {  /// por lo que vamos sumando i 
+    if (sieve[i] == true) {  /// desde cada true marcar multiplos como no primos
+      for (int64_t j = i + i; j <= number; j += i) {  /// se suma en i
         sieve[j] = false;
       }
     }
@@ -194,7 +212,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
 
   for (int64_t i = 2; i <= number; i++) {
     if (sieve[i] == true) {  /// si la posicion es true es que es primo
-      prime_numbers_aux[count] = i;  /// y el numero es igual a la posicion entonces lo guardamos en el auxiliar que creamos
+      prime_numbers_aux[count] = i;  /// y el numero igual a la posicion
       count++;
     }
   }
@@ -203,7 +221,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
   prime_numbers->prime_numbers = prime_numbers_aux;
   prime_numbers->size = count;
 
-  /// liberamos memoria que no se va a usar mas 
+  /// liberamos memoria que no se va a usar mas
   free(sieve);
   return prime_numbers;
 }
@@ -216,39 +234,51 @@ void print_goldach_numbers(goldbach_number_t* goldbach_numbers, int64_t size) {
   }
 
   /// Imprimir el encabezado
-  fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size, total_amount_of_sums);
+  fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
+  , total_amount_of_sums);
 
   for (int64_t i = 0; i < size; i++) {
     /// imprimir numeros cuyo valor absoluto es menor que 5
-    if (goldbach_numbers[i].sums == 0 && goldbach_numbers[i].amount_of_sums == 0) {
+    if (goldbach_numbers[i].sums == 0 && goldbach_numbers[i]
+      .amount_of_sums == 0) {
       fprintf(stdout, "%" PRId64 ": NA\n", goldbach_numbers[i].number);
       continue;
     }
-    
+
     /// imprimir dependiendo de si es negativo o positivo
     if (goldbach_numbers[i].number < 0) {
-      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums: ", goldbach_numbers[i].number, goldbach_numbers[i].amount_of_sums);
+      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums: ", goldbach_numbers[i]
+        .number, goldbach_numbers[i].amount_of_sums);
       if (goldbach_numbers[i].number % 2 == 0) {
-        for (int64_t j = 0; j < goldbach_numbers[i].amount_of_sums * 2; j += 2) {
+        for (int64_t j = 0; j < goldbach_numbers[i]
+          .amount_of_sums * 2; j += 2) {
           if (j + 2 == goldbach_numbers[i].amount_of_sums * 2) {
-            fprintf(stdout, "%" PRId64 " + %" PRId64, goldbach_numbers[i].sums[j + 0], goldbach_numbers[i].sums[j + 1]);
+            fprintf(stdout, "%" PRId64 " + %" PRId64, goldbach_numbers[i]
+              .sums[j + 0], goldbach_numbers[i].sums[j + 1]);
           } else {
-            fprintf(stdout, "%" PRId64 " + %" PRId64 ", ", goldbach_numbers[i].sums[j + 0], goldbach_numbers[i].sums[j + 1]);
+            fprintf(stdout, "%" PRId64 " + %" PRId64 ", ", goldbach_numbers[i]
+              .sums[j + 0], goldbach_numbers[i].sums[j + 1]);
           }
         }
         fprintf(stdout, "\n");
       } else {
-        for (int64_t j = 0; j < goldbach_numbers[i].amount_of_sums * 3; j += 3) {
+        for (int64_t j = 0; j < goldbach_numbers[i]
+          .amount_of_sums * 3; j += 3) {
           if (j + 3 == goldbach_numbers[i].amount_of_sums * 3) {
-            fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64, goldbach_numbers[i].sums[j + 0], goldbach_numbers[i].sums[j + 1], goldbach_numbers[i].sums[j + 2]);
+            fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64
+              , goldbach_numbers[i].sums[j + 0], goldbach_numbers[i].sums[j + 1]
+              , goldbach_numbers[i].sums[j + 2]);
           } else {
-            fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64 ", ", goldbach_numbers[i].sums[j + 0], goldbach_numbers[i].sums[j + 1], goldbach_numbers[i].sums[j + 2]);
+            fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64 ", "
+              , goldbach_numbers[i].sums[j + 0], goldbach_numbers[i]
+              .sums[j + 1], goldbach_numbers[i].sums[j + 2]);
           }
         }
         fprintf(stdout, "\n");
       }
     } else {
-      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums\n", goldbach_numbers[i].number, goldbach_numbers[i].amount_of_sums);
+      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums\n", goldbach_numbers[i]
+        .number, goldbach_numbers[i].amount_of_sums);
     }
   }
 }
