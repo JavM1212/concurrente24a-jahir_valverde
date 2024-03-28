@@ -19,7 +19,7 @@ int main() {
   }
 
   /// crear array de goldbach_number_t* del tamano del input
-  goldbach_number_t** goldbach_numbers = (goldbach_number_t**) 
+  goldbach_number_t** goldbach_numbers = (goldbach_number_t**)
     calloc(input->size, sizeof(goldbach_number_t));
   if (!goldbach_numbers) {
     fprintf(stderr, "Error: Could not allocate goldbach_numbers in memory."
@@ -93,7 +93,7 @@ input_t* read_input() {
 }
 
 goldbach_number_t* calc_goldbach_number(int64_t number) {
-  goldbach_number_t* goldbach_number = (goldbach_number_t*) 
+  goldbach_number_t* goldbach_number = (goldbach_number_t*)
     calloc(1, sizeof(goldbach_number_t));
   if (!goldbach_number) {
     fprintf(stderr, "Error: Could not allocate goldbach_number in memory."
@@ -142,7 +142,7 @@ goldbach_number_t* calc_goldbach_number(int64_t number) {
               /// asignamos los valores
               goldbach_number->sums[(goldbach_number->amount_of_sums - 1)
                 * 2 + 0] = prime_numbers->prime_numbers[i];
-              goldbach_number->sums[(goldbach_number->amount_of_sums - 1) 
+              goldbach_number->sums[(goldbach_number->amount_of_sums - 1)
                 * 2 + 1] = prime_numbers->prime_numbers[j];
             } else {  /// si no fue exitosa
               fprintf(stderr, "Error: Could not allocate goldach_numbers[i]."
