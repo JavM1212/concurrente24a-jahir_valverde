@@ -77,15 +77,6 @@ se modifique automaticamente. Para otros errores (como entradas invalidas),
 setteo errno = {numero de rutina}{numero de error}. Por ejemplo, el segundo
 error de la tercera rutina, implica errno = 32
 
-Ademas, para la estructura goldbach_number_t, que se encarga de guardar el 
-numero al que se le desean calcular las sumas, la cantidad de sumas, y el array
-con las sumas, se manejan los siguientes errores:
-1. -1 si no pudo encontrar numeros primos menores al numero por alguna razon
-2. -2 si no se pudo realocar memoria para una estructura de goldbach_number_t
-cuyo numero es par
-3. -3 si no se pudo realocar memoria para una estructura de goldbach_number_t
-cuyo numero es impar
-
 ---
 
 # Creditos
