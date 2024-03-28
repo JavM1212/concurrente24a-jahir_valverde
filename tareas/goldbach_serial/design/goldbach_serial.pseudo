@@ -25,6 +25,15 @@ procedure main
   print_goldbach_numers(goldbach_numbers)
 end procedure
 
+procedure receive_input()
+  initialize: count
+
+  while !EOF do
+    reallocate input->input_arr adding 1 cell
+    count := count + 1
+  end while
+end procedure
+
 procedure calc_goldbach_number(integer number)
   initialize cell: goldbach_number
   goldbach_number->number = number
@@ -81,4 +90,34 @@ procedure calc_goldbach_number(integer number)
   end if
 
   return goldbach_number
+end procedure
+
+procedure calc_prime_numbers(integer number)
+initialize cell with size of prime_numbers: prime_numbers
+initialize array with size of number: prime_numbers_aux
+initialize array with size of number: sieve
+initialize count to 0
+
+for i := 2 to number do
+  sieve[i] = 1
+end for
+
+for i := 2 to number do
+  if sieve[i] = 1 do
+    for j := i to number increasing by i do
+      sieve[i] = 0
+    end for
+  end if
+end for
+
+for i = 2 to number do
+  if sieve[i] = 1 do
+    prime_numbers_aux[count] = i
+    count := count + 1
+  end if
+end for
+
+prime_numbers->prime_numbers = prime_numbers_aux
+prime_numbers->size = count
+
 end procedure
