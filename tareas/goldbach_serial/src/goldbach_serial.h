@@ -62,27 +62,32 @@ input_t* read_input();
 /**
  * @brief Calcula las sumas de Goldbach para un numero 
  * 
- * @param number Int de 64 bits al que se le desea calcular las sumas de goldbach
- * @return on success: registro de tipo goldbach_number_t con los valores encontrados
- *         on failure: registro de tipo goldbach_number_t codigos de error
+ * @param number Int de 64 bits al que se le desea calcular las sumas de
+ *        goldbach
+ * @return on success: registro de tipo goldbach_number_t con los valores 
+ *         encontrados 
+ *         on failure: 0
  */
-goldbach_number_t calc_goldbach_number(int64_t number);
+goldbach_number_t* calc_goldbach_number(int64_t number);
 
 /**
  * @brief Calcula los numeros primos menores a si mismo
  * 
- * @param number Int de 64 bits al que se le quieren calcular los numeros primos menores a si mismo
+ * @param number Int de 64 bits al que se le quieren calcular los numeros 
+ *        primos menores a si mismo
  * @return on success: puntero a prime_numbers_t con los numeros calculados
  *         on failure: 0
  */
 prime_numbers_t* calc_prime_numbers(int64_t number);
 
 /**
- * @brief imprime sistematicamente el contenido del array de goldbach_number_t obtenido anteriormente
+ * @brief imprime sistematicamente el contenido del array de goldbach_number_t 
+ *        obtenido anteriormente
  * 
- * @param goldbach_numbers array donde guardamos los datos de las sumas de Goldbach
- * @param size tamano del array goldbach_numbers
+ * @param goldbach_numbers** array donde guardamos los datos de las sumas de 
+ *        Goldbach
+ * @param size tamano del array goldbach_numbers*
  */
-void print_goldach_numbers(goldbach_number_t* goldbach_numbers, int64_t size);
+void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size);
 
 #endif  // GOLDBACH_SERIAL_H
