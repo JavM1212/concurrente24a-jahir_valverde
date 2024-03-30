@@ -52,7 +52,7 @@ cada numero este separado por salto de linea
 -14\
 -15\
 ###### Salida en Input Valido
-Total: 7 numbers 8 sums
+Total: 7 numbers 8 sums\
 \
 0: NA\
 3: NA\
@@ -76,6 +76,10 @@ algunos contextos, decidi seguir sete patron: Para errores de inicializacion
 se modifique automaticamente. Para otros errores (como entradas invalidas), 
 setteo errno = {numero de rutina}{numero de error}. Por ejemplo, el segundo
 error de la tercera rutina, implica errno = 32
+
+
+Ademas, cada subrutina se encarga de imprimir su error, y devolverle al
+main el codigo. Luego el main devuelve el error al SO
 
 ---
 
