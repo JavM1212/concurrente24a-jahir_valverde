@@ -231,10 +231,10 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
 
 
 void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size) {
-  int64_t total_amount_of_sums = 0;
-  for (int64_t i = 0; i < size; i++) {  /// obtener el numero total de sumas
-    total_amount_of_sums += goldbach_numbers[i]->amount_of_sums;
-  }
+  // int64_t total_amount_of_sums = 0;
+  // for (int64_t i = 0; i < size; i++) {  /// obtener el numero total de sumas
+  //   total_amount_of_sums += goldbach_numbers[i]->amount_of_sums;
+  // }
 
   /// Imprimir el encabezado
   /*fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
