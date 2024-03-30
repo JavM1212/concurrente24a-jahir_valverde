@@ -36,11 +36,11 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
   make clean
 
 ## Corrido
-./bin/goldbach_serial < tests/input_example.txt
+./bin/goldbach_serial < tests/ex_input.txt
 
 ## Inputs
 El input debe estar necesariamente en un archivo .txt. Hay un ejemplo en
-/concurrente24a-jahir_valverde/tareas/goldbach_serial/tests/input001.txt.
+/concurrente24a-jahir_valverde/tareas/goldbach_serial/tests/ex_input.txt.
 Sin embargo se pueden agregar mas, lo importante es la extension .txt y que 
 cada numero este separado por salto de linea
 ###### Input Valido (valores dentro de un .txt)
