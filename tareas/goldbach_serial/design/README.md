@@ -1,5 +1,5 @@
 # Diseno de la estructura goldbach_number_t
-(./diagrama-de-estructuras.png)
+![Diagrama: ./diagrama-de-estructuras.png](./diagrama-de-estructuras.png)
 
 
 ## Input
