@@ -1,5 +1,5 @@
 # Diseno de la estructura goldbach_number_t
-(/diagrama-de-estructuras.png)
+(./diagrama-de-estructuras.png)
 
 
 ## Input
@@ -16,4 +16,4 @@ ya que si es par se puede determinar con number, y cuantos espacios se determina
 con amount_of_sums
 
 ## Pesudocodigo
-(/goldbach_serial.pseudo)
+(//goldbach_serial.pseudo)
