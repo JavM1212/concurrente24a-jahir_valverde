@@ -237,8 +237,8 @@ void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size) {
   }
 
   /// Imprimir el encabezado
-  fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
-  , total_amount_of_sums);
+  /*fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
+  , total_amount_of_sums);*/
 
   for (int64_t i = 0; i < size; i++) {
     /// imprimir numeros cuyo valor absoluto es menor que 5
