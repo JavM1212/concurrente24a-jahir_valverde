@@ -44,30 +44,30 @@ El input debe estar necesariamente en un archivo .txt. Hay un ejemplo en
 Sin embargo se pueden agregar mas, lo importante es la extension .txt y que 
 cada numero este separado por salto de linea
 ###### Input Valido (valores dentro de un .txt)
-0
-3
--4
-8
-11
--14
--15
+0\
+3\
+-4\
+8\
+11\
+-14\
+-15\
 ###### Salida en Input Valido
 Total: 7 numbers 8 sums
-
-0: NA
-3: NA
--4: NA
-8: 1 sums
-11: 2 sums
--14: 2 sums: 3 + 11, 7 + 7
--15: 3 sums: 2 + 2 + 11, 3 + 5 + 7, 5 + 5 + 5
+\
+0: NA\
+3: NA\
+-4: NA\
+8: 1 sums\
+11: 2 sums\
+-14: 2 sums: 3 + 11, 7 + 7\
+-15: 3 sums: 2 + 2 + 11, 3 + 5 + 7, 5 + 5 + 5\
 ###### Input Invalido (algo diferente a int)
-f
-4.3
-ho
+f\
+4.3\
+ho\
 ###### Salida en Input Invalido
 Error: invalid input. errno: 21
-***El codigo 21 significa que se cayo en la rutina 2 con identificador 1***
+(***El codigo 21 significa que se cayo en la rutina 2 con identificador 1***)
 
 ## Errores
 Como se usa la variable global errno, y esta se popula automaticamente en 
