@@ -85,4 +85,4 @@ Jahir Valverde - jahir.valverde@ucr.ac.cr
 ---
 
 # Design
-[Design README.md] (/design/README.md)
+[Design: ./design/README.md](./design/README.md)
