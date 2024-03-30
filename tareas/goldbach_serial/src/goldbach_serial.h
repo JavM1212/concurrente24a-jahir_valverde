@@ -64,7 +64,7 @@ input_t* read_input();
  * 
  * @param number Int de 64 bits al que se le desea calcular las sumas de
  *        goldbach
- * @return on success: registro de tipo goldbach_number_t con los valores 
+ * @return on success: puntero a goldbach_number_t con los valores 
  *         encontrados 
  *         on failure: 0
  */
