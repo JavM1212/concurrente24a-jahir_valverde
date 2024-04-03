@@ -1,12 +1,13 @@
 /// Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
 
-#include <pthread.h>
 #include <assert.h>
+#include <inttypes.h>
+#include <pthread.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <time.h>
 #include <unistd.h>
-#include <inttypes.h>
 
 /**
  * @brief Esta estructura va a poder ser accedida por todos los hilos
@@ -51,7 +52,21 @@ int main(int argc, char* argv[]) {
     , sizeof(shared_data_t));
   if (shared_data) {
     (*shared_data).thread_count = thread_count;
+
+    struct timespec start_time, finish_time;
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
+
     error = create_threads(shared_data);
+
+    clock_gettime(CLOCK_MONOTONIC, &finish_time);
+    double elapsed_time = (finish_time.tv_sec - start_time.tv_sec)
+                        + ((finish_time.tv_nsec - start_time.tv_nsec)
+                          /(double)1000000000);
+
+    // double t := s2 - s1 + (n2 - n1) / 1000000000
+
+    fprintf(stdout, "elapsed_time: %.9fs\n", elapsed_time);
+
     free(shared_data);
   } else {
     fprintf(stderr, "Error: could not allocate shared data\n");
@@ -66,9 +81,9 @@ int main(int argc, char* argv[]) {
 int64_t create_threads(shared_data_t* shared_data) {
   int64_t error = EXIT_SUCCESS;
 
-  pthread_t* threads = (pthread_t*) 
+  pthread_t* threads = (pthread_t*)
     calloc(shared_data->thread_count, sizeof(pthread_t));
-  private_data_t* private_data = (private_data_t*) 
+  private_data_t* private_data = (private_data_t*)
     calloc(shared_data->thread_count, sizeof(private_data_t));
 
   if (threads && private_data) {
