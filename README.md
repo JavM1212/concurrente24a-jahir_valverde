@@ -28,7 +28,10 @@ Memoria privada: En cambio, en la memoria privada, cada hilo tiene su registro
 privado (como una copia) y solo puede modificar lo que le corresponde. Es decir,
 si un valor cambia, los demas hilos "no se van a dar cuenta"
 ---
-9. Espera activa
+9. Espera activa -> La espera activa (busy waiting) es un ciclo que hace a un
+hilo de ejecución esperar repetitivamente hasta que una condición se haga falsa.
+Por ejemplo, si la variable next_thread indica el número del próximo thread que 
+puede realizar una tarea que debe ser serializada en orden, el código
 ---
 10. Condición de carrera
 ---
