@@ -39,9 +39,10 @@ puede realizar una tarea que debe ser serializada en orden, el código
 ---
 12. Seguridad condicional
 ---
-13. Exclusión mutua
+13. Exclusión mutua -> Propiedad de impedir que varios hilos ejecuten a la misma
+vez una region critica
 ---
-14. Semáforo
+14. Semáforo -> 
 ---
 15. Barrera
 ---
