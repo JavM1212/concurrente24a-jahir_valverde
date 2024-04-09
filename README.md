@@ -42,7 +42,18 @@ puede realizar una tarea que debe ser serializada en orden, el código
 13. Exclusión mutua -> Propiedad de impedir que varios hilos ejecuten a la misma
 vez una region critica
 ---
-14. Semáforo -> 
+14. Semáforo -> Entero con signo con tres caracteristicas:
+- Se inicializa en cualquier entero, pero luego solo se permite incrementar
+en uno (signal) o decrementar en uno (wait). Esto incluye no poder leer el
+valor actual del semaforo
+- Cuando un hilo decrementa el semaforo, si el resultado es negativo, 
+el hilo es bloqueado, y no puede continuar hasta que otro hilo lo incremente
+- Cuando un hilo incrementa un semaforo, si hay otros esperando, uno de ellos
+sera desbloqueado. Tanto el que incrementa como el que es desbloqueado 
+continuan concurrentemente
+No hay forma de saber cual hilo sera desbloqueado por el scheduler. Ademas, 
+tampoco se puede saber si al incrementar un semaforo, se desbloqueara o no un
+hilo en espera, dado que no se puede leer el valor del semaforo
 ---
 15. Barrera
 ---
