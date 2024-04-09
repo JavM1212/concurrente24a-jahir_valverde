@@ -33,7 +33,7 @@ hilo de ejecución esperar repetitivamente hasta que una condición se haga fals
 Por ejemplo, si la variable next_thread indica el número del próximo thread que 
 puede realizar una tarea que debe ser serializada en orden, el código
 ---
-10. Condición de carrera
+10. Condición de carrera -> Modificacion concurrente de memoria compartida
 ---
 11. Control de concurrencia
 ---
