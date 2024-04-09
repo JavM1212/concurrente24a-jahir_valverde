@@ -119,7 +119,7 @@ void* race(void* data) {
   /// como esta linea genera una condicion de carrera, se va a a matar
   /// la concurrencia. Esto se va a hacer con mutex, exclusion mutua
   /// Mutex asegura exclusion mutua, pero no orden
-  pthread_mutex_lock(&shared_data->can_access_position); 
+  pthread_mutex_lock(&shared_data->can_access_position);
   uint64_t my_position = ++shared_data->position;  /// preincremento
 
   /// nuevo string a imprimir
@@ -130,8 +130,8 @@ void* race(void* data) {
   pthread_mutex_unlock(&shared_data->can_access_position);
   /// el problema de esta implementacion es que practicamente esta serializado
   /// porque la mayor parte del cuerpo de la subrutina esta encerrado
-  /// por mutex. 
-  /// Mientras el trabajo pesado este fuera de un mutex no deberia ser 
+  /// por mutex.
+  /// Mientras el trabajo pesado este fuera de un mutex no deberia ser
   /// una mala practica
 
   /**
