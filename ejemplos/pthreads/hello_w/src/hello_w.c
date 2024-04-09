@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-void* greet(void* data);
+void* race(void* data);
 
 /**
  * @brief APUNTES
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     /// for para crear los threads
     for (int64_t thread_number = 0; thread_number < thread_count
       ; thread_number++) {
-      error = pthread_create(&threads[thread_number], /*attr*/ NULL, greet
+      error = pthread_create(&threads[thread_number], /*attr*/ NULL, race
         , /*arg*/ (void*) thread_number);
     }
 
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
   return error;
 }
 
-void* greet(void* data) {
+void* race(void* data) {
   /// Se usa rank por convencion
   const int64_t rank = (int64_t) data;
 

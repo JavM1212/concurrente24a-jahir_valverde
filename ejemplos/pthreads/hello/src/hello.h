@@ -19,6 +19,6 @@ int main(void);
  * @brief   Este procedimiento imprime un mensaje en la salida estandar. Es
  *          ejecutado por un hilo secundario.
  */
-void* greet(void* data);
+void* race(void* data);
 
 #endif  /// HELLO_H_

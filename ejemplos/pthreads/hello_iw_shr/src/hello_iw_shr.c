@@ -35,7 +35,7 @@ typedef struct private_data_t {
  */
 
 int64_t create_threads(shared_data_t* shared_data);
-void* greet(void* data);
+void* race(void* data);
 
 int main(int argc, char* argv[]) {
   int64_t error = EXIT_SUCCESS;
@@ -92,7 +92,7 @@ int64_t create_threads(shared_data_t* shared_data) {
       private_data[thread_number].thread_number = thread_number;
       /// memoria compartida
       private_data[thread_number].shared_data = shared_data;
-      error = pthread_create(threads + thread_number, /*attr*/ NULL, greet
+      error = pthread_create(threads + thread_number, /*attr*/ NULL, race
         , /*arg*/ private_data + thread_number);
       if (error != EXIT_SUCCESS) {
         fprintf(stderr, "Error: could not create secondary thread\n");
@@ -119,7 +119,7 @@ int64_t create_threads(shared_data_t* shared_data) {
   return error;
 }
 
-void* greet(void* data) {
+void* race(void* data) {
   /**
    * @brief La memoria privada contiene la informacion de la memoria compartida
    *        sin copiar lo mismo varias veces. Ademas tiene la ventaja

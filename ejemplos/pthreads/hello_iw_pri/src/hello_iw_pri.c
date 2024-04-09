@@ -22,7 +22,7 @@ typedef struct private_data_t {
   int64_t thread_count;
 } private_data_t;
 
-void* greet(void* data);
+void* race(void* data);
 int64_t create_threads(int64_t thread_count);
 
 int main(int argc, char* argv[]) {
@@ -57,7 +57,7 @@ int64_t create_threads(int64_t thread_count) {
       private_data[thread_number].thread_count = thread_count;
 
       /// la aritmetica de punteros tambien es valida
-      error = pthread_create(threads + thread_number, /*attr*/ NULL, greet
+      error = pthread_create(threads + thread_number, /*attr*/ NULL, race
         , /*arg*/ private_data + thread_number);
       if (error != EXIT_SUCCESS) {
         fprintf(stderr, "Error: could not create secondary thread\n");
@@ -84,7 +84,7 @@ int64_t create_threads(int64_t thread_count) {
   return error;
 }
 
-void* greet(void* data) {
+void* race(void* data) {
   private_data_t* private_data = (private_data_t*) data;
 
   /**

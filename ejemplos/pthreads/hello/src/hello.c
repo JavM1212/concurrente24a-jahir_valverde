@@ -64,7 +64,7 @@ int main(void) {
    *        ejemplo el stdout), se genera una condicion de carrera
    * 
    */
-  error = pthread_create(&thread, /*attr*/ NULL, greet, /*arg*/ NULL);
+  error = pthread_create(&thread, /*attr*/ NULL, race, /*arg*/ NULL);
 
   if (error == EXIT_SUCCESS) {
     /**
@@ -98,7 +98,7 @@ int main(void) {
 }
 
 /// funcion que es llamada por el hilo secundario
-void* greet(void* data) {
+void* race(void* data) {
     (void) data;
     fprintf(stdout, "Hello from secondary thread\n");
     return NULL;

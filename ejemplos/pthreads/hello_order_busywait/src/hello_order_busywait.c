@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 typedef struct shared_data_t {
-  int64_t next_thread;  /// settear next_thread en la memoria compartida
+  int64_t position;  /// settear next_thread en la memoria compartida
   int64_t thread_count;
 } shared_data_t;
 
@@ -20,7 +20,7 @@ typedef struct private_data_t {
 } private_data_t;
 
 int64_t create_threads(shared_data_t* shared_data);
-void* greet(void* data);
+void* race(void* data);
 
 int main(int argc, char* argv[]) {
   int64_t error = EXIT_SUCCESS;
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     , sizeof(shared_data_t));
   if (shared_data) {
     /// a pesar de que calloc ya settea en 0, se inicializa por legibilidad
-    (*shared_data).next_thread = 0;
+    (*shared_data).position = 0;
     (*shared_data).thread_count = thread_count;
 
     struct timespec start_time, finish_time;
@@ -78,7 +78,7 @@ int64_t create_threads(shared_data_t* shared_data) {
       ; thread_number++) {
       private_data[thread_number].thread_number = thread_number;
       private_data[thread_number].shared_data = shared_data;
-      error = pthread_create(threads + thread_number, /*attr*/ NULL, greet
+      error = pthread_create(threads + thread_number, /*attr*/ NULL, race
         , /*arg*/ private_data + thread_number);
       if (error != EXIT_SUCCESS) {
         fprintf(stderr, "Error: could not create secondary thread\n");
@@ -105,7 +105,7 @@ int64_t create_threads(shared_data_t* shared_data) {
   return error;
 }
 
-void* greet(void* data) {
+void* race(void* data) {
   private_data_t* private_data = (private_data_t*) data;
   shared_data_t* shared_data = private_data->shared_data;
 
@@ -115,7 +115,7 @@ void* greet(void* data) {
   /// incrementar el next_thread y genera que se gaste el 100% de los 
   /// recursos de los otros cpu preguntando si el next_thread es menor
   /// que el thread_number y siempre va a dar true porque no se pudo incrementar
-  while (shared_data->next_thread < private_data->thread_number) {
+  while (shared_data->position < private_data->thread_number) {
     /// busy wait
   }
 
@@ -123,7 +123,7 @@ void* greet(void* data) {
     , (*private_data).thread_number, shared_data->thread_count);
 
   /// se le avisa al proximo hilo que ya puede continuar
-  shared_data->next_thread++;
+  shared_data->position++;
 
   return NULL;
 }
