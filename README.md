@@ -35,9 +35,12 @@ puede realizar una tarea que debe ser serializada en orden, el código
 ---
 10. Condición de carrera -> Modificacion concurrente de memoria compartida
 ---
-11. Control de concurrencia
+11. Control de concurrencia 
 ---
-12. Seguridad condicional
+12. Seguridad condicional -> La seguridad condicional permite asignarle a cada
+hilo una porcion de la data con la que trabajar. Esto permite obtener el 
+maximo potencial de la concurrencia porque los hilos no ocupan esperarse entre
+si
 ---
 13. Exclusión mutua -> Propiedad de impedir que varios hilos ejecuten a la misma
 vez una region critica
