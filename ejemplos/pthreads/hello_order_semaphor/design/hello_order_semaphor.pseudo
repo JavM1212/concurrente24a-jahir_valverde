@@ -1,0 +1,23 @@
+procedure main
+  shared thread_count := integer(argv[1])
+
+  shared can_greet as an array of thread_count semaphores
+
+  for thread_number:= 0 to thread_count do
+    /// not trhread number va a dar 1 para 0 y 0 para el resto
+    /// por lo que el primer semaforo va a tener el valor 1 y el resto 0
+    can_greet[thread_number] := create_semaphore(not thread_number)
+    create_thread(greet, thread_number) /// thread team 
+  end for
+  print "Hello from main thread"
+end procedure
+
+procedure greet(thread_number)
+  wait(can_greet[thread_number])
+  print "Hello from secondary thread ", thread_number, " of ", thread_count
+  /// se usa modulo en vez de control condicional porque es mas compacto
+  /// e igual soluciona el problema de que salte a otro thread count sin 
+  /// contar otro
+  /// ademas permite dejar los semaforos en su estado inicial
+  signal(can_greet[(thread_number + 1) mod thread_count])
+end procedure
