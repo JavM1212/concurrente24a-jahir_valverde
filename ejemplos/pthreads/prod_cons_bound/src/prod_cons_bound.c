@@ -172,7 +172,7 @@ void* produce(void* data) {
     for (size_t index = 0; index < shared_data->buffer_capacity; ++index) {
       /// hacemos el wait a produce
       sem_wait(&shared_data->can_produce);
-      
+
       /// milisegundos
       usleep(1000 * random_between(shared_data->producer_min_delay
         , shared_data->producer_max_delay));
