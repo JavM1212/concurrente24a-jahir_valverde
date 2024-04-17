@@ -107,7 +107,8 @@ espera constante como pseudoaleatoria.
 
 ### Grafica
 ![Grafico: ./grafico.png](./grafico.png)
-![Google Sheets](https://docs.google.com/spreadsheets/d/1knNd3_cSk2_2Fly7p3KVAaiPHVaxVNfaKAYDpew2HAc/edit?usp=sharing)
+
+https://docs.google.com/spreadsheets/d/1knNd3_cSk2_2Fly7p3KVAaiPHVaxVNfaKAYDpew2HAc/edit?usp=sharing
 
 El mejor tiempo de espera para todas las pruebas fue 0.000443479s, en la espera
 pseudoaleatoria de 8 hilos y 25 milisegundos. El peor tiempo de espera fue de
