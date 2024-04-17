@@ -1,0 +1,126 @@
+procedure main(argc, argv[]):
+  /// preguntar la cantidad de argumentos recibidos por consola
+  if argc = 8 then
+    shared unit_count := integer(argv[1])
+    shared producer_count := integer(argv[2])
+    shared consumer_count := integer(argv[3])
+    shared producer_min_delay := integer(argv[4])
+    shared producer_max_delay := integer(argv[5])
+    shared consumer_min_delay := integer(argv[6])
+    shared consumer_max_delay := integer(argv[7])
+
+    shared queue := create_integer_queue()  /// cola
+    shared can_access_queue := create_mutex()
+
+    shared next_unit := 0
+    shared can_access_next_unit := create_mutex()
+
+    shared consumed_count := 0
+    shared can_access_consumed_count := create_mutex()
+
+    /// Paralelismo de datos, equipo de hilos
+    declare producers := create_threads(producer_count, produce1)
+    declare consumers := create_threads(consumer_count, consume)
+
+    // shared can_produce := create_semaphore()  // no se limita la produccion
+    shared can_consume := create_semaphore(0)
+
+    join_threads(producers)
+    join_threads(consumers)
+  end if
+end procedure
+
+procedure produce0:
+  declare my_unit := 0
+  lock(can_access_next_unit)
+    declare is_there_pending_work := next_unit < unit_count
+    if is_there_pending_work do  /// hay trabajo que hacer?
+      /// la reservo para mi
+      next_unit := next_unit + 1  /// condicion de carrera
+      my_unit := next_unit  /// condicion de carrera
+    end if
+  unlock(can_access_next_unit)
+
+  while is_there_pending_work  do  /// falta trabajo por hacer?
+    /// simulacion del trabajo que reservamos
+    delay(random_between(producer_min_delay, producer_max_delay))
+
+    lock(can_access_queue)  /// thread safe
+      /// tiro la unidad que trabaje a la cola
+      enqueue(queue, my_unit)  /// condicion de carrera
+
+      /// reporte de que la produjo
+      print("Produced ", my_unit)
+    unlock(can_access_queue)
+
+    lock(can_access_next_unit)
+    declare is_there_pending_work := next_unit < unit_count
+    if is_there_pending_work do  /// hay trabajo que hacer?
+      /// la reservo para mi
+      next_unit := next_unit + 1  /// condicion de carrera
+      my_unit := next_unit  /// condicion de carrera
+    end if
+    unlock(can_access_next_unit)
+  end while
+end procedure
+
+procedure produce1:
+  while true  do  /// falta trabajo por hacer?
+    declare my_unit := 0
+    lock(can_access_next_unit)
+      if next_unit < unit_count do  /// hay trabajo que hacer?
+        /// la reservo para mi
+        next_unit := next_unit + 1  /// condicion de carrera
+        my_unit := next_unit  /// condicion de carrera
+      else
+        unlock(can_access_next_unit)
+        break while
+      end if
+    unlock(can_access_next_unit)
+
+    /// simulacion del trabajo que reservamos
+    delay(random_between(producer_min_delay, producer_max_delay))
+
+    lock(can_access_queue)  /// thread safe
+      /// tiro la unidad que trabaje a la cola
+      enqueue(queue, my_unit)  /// condicion de carrera
+
+      /// reporte de que la produjo
+      print("Produced ", my_unit)
+    unlock(can_access_queue)
+
+    signal(can_consume)
+  end while
+end procedure
+
+procedure consume1:
+  while true do  /// hay para consumir?
+    lock(can_access_consumed_count)
+      if consumed_count < unit_count do
+        /// lo reservo para mi
+        consumed_count := consumed_count + 1  /// condicion de carrera
+      else
+        unlock(can_access_consumed_count)
+        break while
+      end if
+    unlock(can_access_consumed_count)
+
+    wait(can_consume)  /// el orden de este wait y lock importa porque 
+                       /// puesto al reves haria un bloqueo mutuo con la linea
+                       /// 84
+    lock(can_access_queue)
+        /// saca de la cola
+        declare my_unit := dequeue(queue)  /// condicion de carrera
+    unlock(can_access_queue)
+
+    /// simular como consume
+    print("\tConsuming ", my_unit)
+    delay(random_between(consumer_min_delay, consumer_max_delay))
+  end while
+end procedure
+
+function random_between(min, max):
+  return min + rand() % (max - min)
+end function
+
+/// se va a contrarestar la memoria compartida con control de concurrencia
