@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     if (!((sscanf(argv[2], "%" SCNu64, &milliseconds)) == 1)) {
       fprintf(stderr, "Error: invalid milliseconds\n");
       return 11;
-   }
+    }
   }
 
   shared_data_t* shared_data = (shared_data_t*) calloc(1
@@ -122,7 +122,7 @@ void* race(void* data) {
   // while (shared_data->position < private_data->thread_number) {
   //   usleep(shared_data->milliseconds);
   // }
-  
+
   /// variante 2
   while (shared_data->position < private_data->thread_number) {
     const unsigned my_delay = rand_r(&my_seed) % shared_data->milliseconds;
