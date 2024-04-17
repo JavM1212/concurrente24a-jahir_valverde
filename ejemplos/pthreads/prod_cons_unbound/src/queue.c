@@ -9,7 +9,7 @@ void queue_remove_first_unsafe(queue_t* queue);
 
 int queue_init(queue_t* queue) {
   assert(queue);
-  int error = pthread_mutex_init(&queue->can_access_queue, /*attr*/ NULL);
+  pthread_mutex_init(&queue->can_access_queue, /*attr*/ NULL);
   queue->head = NULL;
   queue->tail = NULL;
   return EXIT_SUCCESS;
