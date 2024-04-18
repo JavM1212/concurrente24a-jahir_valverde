@@ -1,4 +1,4 @@
-# hello_order_busywait
+# delayed_busy_wait
 Espera activa con retraso. ¿Se corrige el problema de la espera activa si en 
 lugar de tener un ciclo vacío, se espera un cierto tiempo? Copie su carpeta 
 ejemplos/pthreads/hello_order_busywait a ejercicios/pthreads/delayed_busy_wait. 
