@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
   shared_data_t *shared_data =
       (shared_data_t *)calloc(1, sizeof(shared_data_t));
   if (shared_data) {
-    sem_init(&shared_data->can_hit, 0, 1);  // Inicializa el semáforo
+    sem_init(&shared_data->can_hit, 0, 1);
     shared_data->max_hits = max_hits;
     shared_data->hits_left = max_hits;
     shared_data->thread_count = thread_count;
@@ -113,19 +113,20 @@ void *hit_pinata(void *data) {
   shared_data_t *shared_data = private_data->shared_data;
 
   while (1) {
-    sem_wait(&shared_data->can_hit);  // Espera a que el semáforo esté disponible
+    sem_wait(&shared_data->can_hit);
     if (shared_data->hits_left > 0) {
       shared_data->hits_left--;
       private_data->my_hits++;
-      sem_post(&shared_data->can_hit);  // Libera el semáforo antes de salir del bucle
       if (shared_data->hits_left == 0) {
         printf("Thread %ld/%ld: %ld hits, I broke the pinata\n",
                private_data->thread_number, shared_data->max_hits,
                private_data->my_hits);
+        sem_post(&shared_data->can_hit);
         return NULL;
       }
+      sem_post(&shared_data->can_hit);
     } else {
-      sem_post(&shared_data->can_hit);  // Libera el semáforo antes de salir del bucle
+      sem_post(&shared_data->can_hit);
       break;
     }
   }
