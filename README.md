@@ -35,7 +35,9 @@ puede realizar una tarea que debe ser serializada en orden, el código
 ---
 10. Condición de carrera -> Modificacion concurrente de memoria compartida
 ---
-11. Control de concurrencia 
+11. Control de concurrencia -> Tecnicas de programacion concurrente que 
+permiten controlar los hilos para evitar condiciones de carrera. Por ejemplo
+el mutex, semaforos, espera activa, etc
 ---
 12. Seguridad condicional -> La seguridad condicional permite asignarle a cada
 hilo una porcion de la data con la que trabajar. Esto permite obtener el 
