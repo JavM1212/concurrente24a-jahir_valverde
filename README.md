@@ -66,9 +66,13 @@ hilo en espera, dado que no se puede leer el valor del semaforo
 ---
 17. Candado de lectura y escritura
 ---
-18. Descomposición
+18. Descomposición -> Tecnica de programacion concurrente que consiste en
+identificar las tareas o unidades de trabajo que se pueden realizar de forma 
+independiente, y por lo tanto, de forma paralela.
 ---
-19. Mapeo
+19. Mapeo -> Asignar que unidad de trabajo independiente le toca a cada hilo.
+En el mapeo estatico la asignacion se conoce desde antes de la compilacion. En
+cambio el mapeo dinamico se asigna en tiempo de ejecucion
 ---
 20. Incremento de velocidad
 ---
