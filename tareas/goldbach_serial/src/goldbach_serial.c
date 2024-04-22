@@ -1,5 +1,8 @@
 // Copyright 2024 Jahir Valverde <jahir.valverde@ucr.ac.cr>
 
+// @see `man feature_test_macros`
+#define _DEFAULT_SOURCE
+
 #include "goldbach_serial.h"
 
 /**
@@ -12,6 +15,10 @@
  */
 
 int main() {
+  /// obtener la hora antes de ejecutar run
+  struct timespec start_time;
+  clock_gettime(/*clk_id*/CLOCK_MONOTONIC, &start_time);
+  
   /// recibir el input y manejar si no fue exitoso
   input_t* input = read_input();
   if (!input) {
@@ -47,6 +54,15 @@ int main() {
   free(goldbach_numbers);
   free(input->input_arr);
   free(input);
+
+  /// obtener la hora despues de ejecutar run
+  struct timespec finish_time;
+  clock_gettime(/*clk_id*/CLOCK_MONOTONIC, &finish_time);
+
+  /// tiempo transcurrido = hora final - hora inicial
+  double elapsed = (finish_time.tv_sec - start_time.tv_sec) +
+          (finish_time.tv_nsec - start_time.tv_nsec) * 1e-9;
+        printf("execution time: %.9lfs\n", elapsed);
   return errno;
 }
 
