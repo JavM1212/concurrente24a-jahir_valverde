@@ -72,7 +72,7 @@ independiente, y por lo tanto, de forma paralela.
 ---
 19. Mapeo -> Asignar que unidad de trabajo independiente le toca a cada hilo.
 En el mapeo estatico la asignacion se conoce desde antes de la compilacion. En
-cambio el mapeo dinamico se asigna en tiempo de ejecucion
+cambio el mapeo dinamico se asigna en tiempo de ejecucion.
 ---
 20. Incremento de velocidad
 ---
