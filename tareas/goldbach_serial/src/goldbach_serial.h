@@ -44,12 +44,18 @@ typedef struct prime_numbers {
 } prime_numbers_t;
 
 /**
- * @brief Maneja el flujo del programa
+ * @brief Funcion principal, corrida por el hilo principal, llama a run
  * 
  * @return on success: 0
  *         on failure: numero distinto de 0
  */
 int main();
+
+/**
+ * @brief Maneja el flujo del programa
+ * 
+ */
+void run();
 
 /**
  * @brief Lee linea por linea hasta el EOF

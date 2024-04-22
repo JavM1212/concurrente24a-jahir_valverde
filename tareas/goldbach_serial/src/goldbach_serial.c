@@ -18,11 +18,24 @@ int main() {
   /// obtener la hora antes de ejecutar run
   struct timespec start_time;
   clock_gettime(/*clk_id*/CLOCK_MONOTONIC, &start_time);
-  
+
+  run();
+
+  /// obtener la hora despues de ejecutar run
+  struct timespec finish_time;
+  clock_gettime(/*clk_id*/CLOCK_MONOTONIC, &finish_time);
+
+  /// tiempo transcurrido = hora final - hora inicial
+  double elapsed = (finish_time.tv_sec - start_time.tv_sec) +
+          (finish_time.tv_nsec - start_time.tv_nsec) * 1e-9;
+        printf("execution time: %.9lfs\n", elapsed);
+  return errno;
+}
+
+void run() {
   /// recibir el input y manejar si no fue exitoso
   input_t* input = read_input();
   if (!input) {
-    return errno;
   }
 
   /// crear array de goldbach_number_t* del tamano del input
@@ -31,7 +44,6 @@ int main() {
   if (!goldbach_numbers) {
     fprintf(stderr, "Error: Could not allocate goldbach_numbers in memory."
       " errno: %i\n", errno);
-    return errno;
   }
 
   /// por cada celda del array, calcular las sumas de Goldbach
@@ -39,7 +51,7 @@ int main() {
     goldbach_numbers[i] = calc_goldbach_number(input->input_arr[i]);
     /// si calcular las sumas dio error, devuelve el codigo de error
     if (!goldbach_numbers[i]) {
-      return errno;
+
     }
   }
 
@@ -54,17 +66,8 @@ int main() {
   free(goldbach_numbers);
   free(input->input_arr);
   free(input);
-
-  /// obtener la hora despues de ejecutar run
-  struct timespec finish_time;
-  clock_gettime(/*clk_id*/CLOCK_MONOTONIC, &finish_time);
-
-  /// tiempo transcurrido = hora final - hora inicial
-  double elapsed = (finish_time.tv_sec - start_time.tv_sec) +
-          (finish_time.tv_nsec - start_time.tv_nsec) * 1e-9;
-        printf("execution time: %.9lfs\n", elapsed);
-  return errno;
 }
+
 
 input_t* read_input() {
   input_t* input = (input_t*) calloc(1, sizeof(input_t));
