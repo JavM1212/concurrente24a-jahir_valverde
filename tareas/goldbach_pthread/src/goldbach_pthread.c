@@ -5,15 +5,8 @@
 
 #include "goldbach_pthread.h"
 
-/**
- * @mainpage Por tomar en cuenta:
- *           - Todas las funciones imprimen los errores que generan
- *           - errno solo es modificado manualmente en errores de flujo,
- *             no de alojamiento en memoria, etc
- *           - Si una funcion que devuelve un puntero da error, va a devolver 0
- * 
- */
-
+/// llama a la funcion run (la cual tiene el flujo del programa) y calcula
+/// el tiempo que dura en ejecutarla
 int main(int argc, char* argv[]) {
   /// obtener la hora antes de ejecutar run
   struct timespec start_time;
@@ -33,13 +26,24 @@ int main(int argc, char* argv[]) {
   return errno;
 }
 
+/// controla el flujo del programa
 void run(int argc, char* argv[]) {
-  /// recibir el input y manejar si no fue exitoso
+  /// recibir input
   input_t* input = read_input();
   if (!input) {
     return;
   }
+
+  /// recibir cantidad de hilos
   int64_t thread_count = analyze_arguments(argc, argv);
+
+  /// inicializar los hilos que seran usados posteriormente
+  input->threads = (pthread_t*) calloc(thread_count, sizeof(pthread_t));
+  if (!input->threads) {
+    fprintf(stderr, "Error: Could not allocate threads in memory."
+      " errno: %i\n", errno);
+    return;
+  }
 
   /// crear array de goldbach_number_t* del tamano del input
   goldbach_number_t** goldbach_numbers = (goldbach_number_t**)
@@ -50,19 +54,17 @@ void run(int argc, char* argv[]) {
     return;
   }
 
-  /// por cada celda del array, calcular las sumas de Goldbach
-  for (int64_t i = 0; i < input->size; i++) {
-    goldbach_numbers[i] = calc_goldbach_number(input->input_arr[i]);
-    /// si calcular las sumas dio error, devuelve el codigo de error
-    if (!goldbach_numbers[i]) {
-      return;
-    }
-  }
+  /// crear el equipo de trabajo con los argumentos necesarios
+  create_threads(input, goldbach_numbers, thread_count);
+
+  /// hacerle merge al equipo
+  join_threads(input, thread_count);
 
   /// imprimir el array de goldbach_number_t
   print_goldach_numbers(goldbach_numbers, input->size);
 
   /// liberar memoria que se necesito hasta el final
+  free(input->threads);
   for (int64_t i = 0; i < input->size; i++) {
     free(goldbach_numbers[i]->sums);
     free(goldbach_numbers[i]);
@@ -72,6 +74,7 @@ void run(int argc, char* argv[]) {
   free(input);
 }
 
+/// lee de la entrada estandar los numeros ingresados y valida que sean ints
 input_t* read_input() {
   input_t* input = (input_t*) calloc(1, sizeof(input_t));
   int64_t* input_arr = (int64_t*) calloc(1, sizeof(int64_t));
@@ -114,12 +117,15 @@ input_t* read_input() {
   return input;
 }
 
+/// obtener argumentos de la linea de comandos
 int analyze_arguments(int argc, char* argv[]) {
   int thread_count = sysconf(_SC_NPROCESSORS_ONLN);
 
+  /// si son 2 argumentos settea el segundo
   if (argc == 2) {
     int temp_thread_count = atoi(argv[1]);
 
+    /// si la entrada fue valida la asignamos
     if (temp_thread_count > 0) {
       thread_count = temp_thread_count;
     }
@@ -128,6 +134,84 @@ int analyze_arguments(int argc, char* argv[]) {
   return thread_count;
 }
 
+/// crear equipo de hilos
+void create_threads(input_t* input, goldbach_number_t** goldbach_numbers
+  , int64_t thread_count) {
+  int64_t start = 0;
+  int64_t finish = 0;
+
+  /// inicializar un my_work por cada hilo
+  my_work_t* my_works = (my_work_t*) calloc(thread_count, sizeof(my_work_t));
+  if (!my_works) {
+    fprintf(stderr, "Error: Could not allocate my_works in memory."
+      " errno: %i\n", errno);
+    return;
+  }
+
+  for (int thread = 0; thread < thread_count; thread++) {
+    /// calcular el indice del inicio del subarreglo de memoria compartida 
+    /// correspondiente
+    start = get_static_block_start(thread, input->size, thread_count);
+    /// calcular el indice del final del subarreglo de memoria compartida
+    /// correspondiente
+    finish = get_static_block_start(thread + 1, input->size, thread_count);
+
+    /// asignar a cada my_work su subarreglo de memoria compartida
+    my_works[thread].my_input = input->input_arr + start;
+    my_works[thread].my_goldbach_numbers = goldbach_numbers + start;
+    /// asignar la cantidad de trabajo en cada subarreglo de memoria compartida
+    /// tambien se puede ver como asignar el tamano de cada subarreglo de
+    /// memoria compartida
+    my_works[thread].assigned_work_units = finish - start;
+
+    /// crear el hilo pasando por parametro el my_work correspondiente
+    errno = pthread_create(&input->threads[thread], /*attr*/ NULL, run_thread
+      , /*arg*/ &my_works[thread]);
+  }
+}
+
+/// funcion corrida por hilos, calcula los goldbach_number para cada unidad
+/// del subarreglo memoria compartida
+void* run_thread(void* data) {
+  my_work_t* my_work = (my_work_t*) data;
+
+  /// como el subarreglo de memoria compartida ya le fue calculado su offset
+  /// solo hace falta recorrer hasta el assigned_work_units calculado 
+  /// anteriormente
+  for (int i = 0; i < my_work->assigned_work_units; i++) {
+    my_work->my_goldbach_numbers[i] =
+      calc_goldbach_number(my_work->my_input[i]);
+  }
+
+  return NULL;
+}
+
+/// hacerle merge al equipo de trabajo
+void join_threads(input_t* input, int64_t thread_count) {
+  for (int thread = 0; thread < thread_count; thread++) {
+    pthread_join(input->threads[thread], /*value_ptr*/ NULL);
+  }
+}
+
+/// obtener el indice de inicio que le corresponde a cada hilo
+int64_t get_static_block_start(int64_t i, int64_t D, int64_t w) {
+  int64_t min = get_static_block_min(i, (D % w));
+  return i * (D / w) + min;
+}
+
+/// obtener el menor de dos numeros
+int64_t get_static_block_min(int64_t i, int64_t mod) {
+  if (i < mod) {
+    return i;
+  }
+  if (i > mod) {
+    return mod;
+  }
+  // i == mod
+  return i;
+}
+
+/// calcular las sumas de goldbach para un numero
 goldbach_number_t* calc_goldbach_number(int64_t number) {
   goldbach_number_t* goldbach_number = (goldbach_number_t*)
     calloc(1, sizeof(goldbach_number_t));
@@ -224,6 +308,7 @@ goldbach_number_t* calc_goldbach_number(int64_t number) {
   return goldbach_number;
 }
 
+/// calcular los numeros primos menos a si mismo
 prime_numbers_t* calc_prime_numbers(int64_t number) {
   prime_numbers_t* prime_numbers = (prime_numbers_t*) calloc(1
   , sizeof(prime_numbers_t));
@@ -265,7 +350,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
   return prime_numbers;
 }
 
-
+/// imprimir los resultados
 void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size) {
   // int64_t total_amount_of_sums = 0;
   // for (int64_t i = 0; i < size; i++) {  /// obtener el numero total de sumas

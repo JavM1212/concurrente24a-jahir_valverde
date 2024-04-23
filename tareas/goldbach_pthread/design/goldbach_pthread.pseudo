@@ -1,17 +1,24 @@
 struct input_t
   int64_t* input_arr
   int64_t size
+  pthread_t* threads;
 end struct
 
 struct goldbach_number_t
   int64_t number
   int64_t amount_of_sums
-  int64_t* sums /// arreglo en memoria
+  int64_t* sums
 end struct
 
 struct prime_numbers_t
-int64_t* prime_numbers /// arreglo en memoria
+int64_t* prime_numbers
 int64_t size
+end struct
+
+struct my_work_t
+  int64_t* my_input;
+  goldbach_number_t** my_goldbach_numbers;
+  int64_t assigned_work_units;
 end struct
 
 procedure main
@@ -19,27 +26,27 @@ procedure main
   declare thread_count as int := analyze_arguments()
   declare goldbach_numbers as array of goldbach_number with size of input->size
 
-  create_threads(user_input, thread_count, goldbach_numbers)
+  create_threads(user_input, goldbach_numbers, thread_count)
 
   join_threads(thread_count)
 
   print_goldbach_numers(goldbach_numbers)
 end procedure
 
-procedure create_threads(user_input, thread_count, goldbach_numbers)
+procedure create_threads(user_input, goldbach_numbers, thread_count)
   for thread := 0 to thread_count do
     declare start as int := get_static_block_start(thread, user_input->size, thread_count)
     declare finish as int := get_static_block_start(thread + 1, user_input->size, thread_count)
-    create_thread(run_thread, goldbach_numbers + start, user_input + start, finish - start);
+    create_thread(run_thread, user_input + start, goldbach_numbers + start, finish - start);
   end for
 end procedure
 
 /// con la formula de mapeo por bloque que provee el profesor en la pagina, 
 /// basta la estructura donde resultaran las sumas de goldbach y la estructura 
 /// del input del usuario y la cantidad de trabajo asignada para trabajar
-procedure run_thread(goldbach_numbers + relative_start_index, user_input + relative_start_index, assigned_work_count)
+procedure run_thread(user_input + relative_start_index, goldbach_numbers + relative_start_index, assigned_work_count)
   for i := 0 to assigned_work_count do
-    (goldbach_numbers + relative_start_index)[i] = calc_goldbach_number((, user_input + relative_start_index)[i])
+    (goldbach_numbers + relative_start_index)[i] = calc_goldbach_number((user_input + relative_start_index)[i])
   end for
 end procedure
 
