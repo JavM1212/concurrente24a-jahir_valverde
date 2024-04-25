@@ -1,25 +1,12 @@
 # Descripcion del problema
-Se desea crear un programa que sea capaz de recibir numeros enteros de entrada,
-y hallarle las sumas de Goldbach segun la conjetura de Goldbach. La cual 
-dice que:
+En esta entrega se busca implementar la solucion de la anterior pero de manera 
+paralela en vez de serial. En mi caso, para implementar la soluciòn concurrente
+usè mapeo estàtico, asignàndole a cada hilo una porciòn de la memoria 
+compartida.
 
-
-Todo número entero mayor que 5:
-1. Si es par se puede escribir como suma de dos números primos (conjetura 
-fuerte). Por ejemplo: 6=3+3, 8=3+5, 14=3+11=7+7
-2. Si es impar se puede escribir como suma de tres números primos (conjetura
-débil). Por ejemplo.: 7=2+2+3, 9=2+2+5, 9=3+3+3
-
-
-La salida debe mostrar los numeros en el mismo orden en que fueron ingresados,
-ademas las sumas deben estar ordenadas de menor a mayor
-
-El anadido de este problema es implementar la solucion pero de manera paralela
-en vez de serial. Lo que implicara el uso de estrategias control de
-concurrencia como semaforos, mutex, etc
-
-La version serial con la version serial dura aproximadamente 0.0003... segundos.
-Mientras que la version concurrente dura
+Midiendo ambas soluciones (la serial y la concurrente), la concurrente resulta
+màs ràpida. Lo cual es lo esperado porque el trabajo està siendo divido
+y manejado al mismo tiempo por varios trabajadores.
 
 ---
 
@@ -42,8 +29,11 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
 ###### Limpiar el compilado
   make clean
 
-## Corrido
+## Corrido con el maximo de nucleos de la computadora como la cantidad de hilos
 ./bin/goldbach_pthread < tests/ex_input.txt
+
+## Corrido con n hilos
+./bin/goldbach_pthread n < tests/ex_input.txt
 
 ## Inputs
 El input debe estar necesariamente en un archivo .txt. Hay un ejemplo en

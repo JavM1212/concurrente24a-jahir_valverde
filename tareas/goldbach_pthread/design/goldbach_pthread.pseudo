@@ -22,31 +22,45 @@ struct my_work_t
 end struct
 
 procedure main
-  declare user_input as input_t in memory := receive_input()
-  declare thread_count as int := analyze_arguments()
-  declare goldbach_numbers as array of goldbach_number with size of input->size
+  declare 1 space in memory of the size of input_t with name user_input := receive_input()
+  declare 1 space in memory of the size of int64_t with name thread_count := analyze_arguments()
+  declare user_input->size spaces in memory of the size of goldbach_number_t with name goldbach_numbers
 
   create_threads(user_input, goldbach_numbers, thread_count)
 
   join_threads(thread_count)
 
   print_goldbach_numers(goldbach_numbers)
+
+  clear memory
 end procedure
 
 procedure create_threads(user_input, goldbach_numbers, thread_count)
+  declare thread_count spaces in memory of the size of my_work_t with name my_works
+
   for thread := 0 to thread_count do
-    declare start as int := get_static_block_start(thread, user_input->size, thread_count)
-    declare finish as int := get_static_block_start(thread + 1, user_input->size, thread_count)
-    create_thread(run_thread, user_input + start, goldbach_numbers + start, finish - start);
+    declare 1 space in memory of the size of int with 
+    name start := get_static_block_start(thread, user_input->size, thread_count)
+
+    declare 1 space in memory of the size of int with 
+    name finish := get_static_block_start(thread + 1, user_input->size, thread_count)
+
+    /// se le suman los offset calculados a las estructuras de memoria
+    my_works[thread].my_input = input->input_arr + start
+    my_works[thread].my_goldbach_numbers = goldbach_numbers + start
+    /// se calcula el size del subarreglo correspondiente
+    my_works[thread].assigned_work_count = finish - start
+
+    create_thread(run_thread, my_works[thread]);
   end for
 end procedure
 
 /// con la formula de mapeo por bloque que provee el profesor en la pagina, 
 /// basta la estructura donde resultaran las sumas de goldbach y la estructura 
 /// del input del usuario y la cantidad de trabajo asignada para trabajar
-procedure run_thread(user_input + relative_start_index, goldbach_numbers + relative_start_index, assigned_work_count)
+procedure run_thread(my_work)
   for i := 0 to assigned_work_count do
-    (goldbach_numbers + relative_start_index)[i] = calc_goldbach_number((user_input + relative_start_index)[i])
+    my_work->goldbach_numbers[i] = calc_goldbach_number(my_work->my_input[i])
   end for
 end procedure
 
