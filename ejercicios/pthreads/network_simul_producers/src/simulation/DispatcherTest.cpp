@@ -10,6 +10,12 @@ DispatcherTest::DispatcherTest(int dispatcherDelay)
 }
 
 int DispatcherTest::run() {
+  size_t producerStopMessages = 1;
+  while (producerStopMessages < this->producerStopMessages) {
+    this->consumeForever();
+    producerStopMessages++;
+  }
+
   // Dispatch all the network messages we receive to their respective queues
   this->consumeForever();
 

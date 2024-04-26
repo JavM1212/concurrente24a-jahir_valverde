@@ -18,7 +18,11 @@ class DispatcherTest : public Dispatcher<int, NetworkMessage> {
   /// Delay of dispatcher to dispatch a package, negative for max random
   int dispatcherDelay = 0;
 
+
+
  public:
+  size_t producerStopMessages;
+
   /// Constructor
   explicit DispatcherTest(int dispatcherDelay);
   /// Start redirecting network messages

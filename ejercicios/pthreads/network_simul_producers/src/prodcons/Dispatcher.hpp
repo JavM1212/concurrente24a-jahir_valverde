@@ -42,7 +42,7 @@ class Dispatcher : public Consumer<DataType> {
   /// Register a map. When the data to be consumed has this key, it will be
   /// redirected to the the given queue
   inline void registerRedirect(const KeyType& key, Queue<DataType>* toQueue) {
-    this->toQueues[key] = toQueue;
+    this->toQueues[key] = toQueue; 
   }
 
   /// Override this method to process any data extracted from the queue

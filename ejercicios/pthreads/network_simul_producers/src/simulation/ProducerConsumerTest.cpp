@@ -62,6 +62,7 @@ int ProducerConsumerTest::start(int argc, char* argv[]) {
     assert(this->producers[index]);
   }
   this->dispatcher = new DispatcherTest(this->dispatcherDelay);
+  this->dispatcher->producerStopMessages = this->producerCount;
   this->dispatcher->createOwnQueue();
   // Create each producer
   this->consumers.resize(this->consumerCount);
@@ -85,7 +86,7 @@ int ProducerConsumerTest::start(int argc, char* argv[]) {
   }
 
   // Start the simulation
-  for ( size_t index = 0; index < this->consumerCount; ++index ) {
+  for ( size_t index = 0; index < this->producerCount; ++index ) {
     /// ahora se inicializa el hilo de cada productor en vez de solo uno
     this->producers[index]->startThread();
   }
@@ -95,7 +96,7 @@ int ProducerConsumerTest::start(int argc, char* argv[]) {
   }
 
   // Wait for objets to finish the simulation
-  for ( size_t index = 0; index < this->consumerCount; ++index ) {
+  for ( size_t index = 0; index < this->producerCount; ++index ) {
     /// se hace join de cada productor en vez de solo 1
     this->producers[index]->waitToFinish();
   }
