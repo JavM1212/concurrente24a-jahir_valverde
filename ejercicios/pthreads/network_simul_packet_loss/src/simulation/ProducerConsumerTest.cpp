@@ -14,6 +14,7 @@ const char* const usage =
   "Usage: prodcons packages consumers prod_delay disp_delay cons_delay\n"
   "\n"
   "  packages    number of packages to be produced\n"
+  "  lossprob    float that describes the probability to loose a package\n"
   "  consumers   number of consumer threads\n"
   "  prod_delay  delay of producer to create a package\n"
   "  disp_delay  delay of dispatcher to dispatch a package\n"
@@ -33,6 +34,8 @@ int ProducerConsumerTest::start(int argc, char* argv[]) {
   if ( int error = this->analyzeArguments(argc, argv) ) {
     return error;
   }
+
+  std::cout << "this->packageLossProbability" << this->packageLossProbability;
 
   // Create objects for the simulation
   this->producer = new ProducerTest(this->packageCount, this->productorDelay
@@ -76,13 +79,14 @@ int ProducerConsumerTest::start(int argc, char* argv[]) {
 
 int ProducerConsumerTest::analyzeArguments(int argc, char* argv[]) {
   // 5 + 1 arguments are mandatory
-  if ( argc != 6 ) {
+  if ( argc != 7 ) {
     std::cout << usage;
     return EXIT_FAILURE;
   }
 
   int index = 1;
   this->packageCount = std::strtoull(argv[index++], nullptr, 10);
+  this->packageLossProbability = std::strtof(argv[index++], nullptr);
   this->consumerCount = std::strtoull(argv[index++], nullptr, 10);
   this->productorDelay = std::atoi(argv[index++]);
   this->dispatcherDelay = std::atoi(argv[index++]);

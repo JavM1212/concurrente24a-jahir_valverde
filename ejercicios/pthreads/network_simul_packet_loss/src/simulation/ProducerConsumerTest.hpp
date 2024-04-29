@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "common.hpp"
+#include <stddef.h>
 
 // Forward declarations
 class ConsumerTest;
@@ -24,6 +25,8 @@ class ProducerConsumerTest {
  private:
   /// Number of packages to be produced
   size_t packageCount = 0;
+  /// Probability to loose a package
+  float packageLossProbability = 0.0;
   /// Number of consumer threads
   size_t consumerCount = 0;
   /// Delay of producer to create a package, negative for max random
