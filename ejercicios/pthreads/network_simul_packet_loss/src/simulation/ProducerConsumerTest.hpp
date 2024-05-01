@@ -7,13 +7,14 @@
 
 #include <vector>
 
-#include "common.hpp"
+#include "../common/common.hpp"
 #include <stddef.h>
 
 // Forward declarations
 class ConsumerTest;
 class DispatcherTest;
 class ProducerTest;
+class AssemblerTest;
 
 /**
  * @brief Controller class that simulates the message passing between
@@ -25,8 +26,6 @@ class ProducerConsumerTest {
  private:
   /// Number of packages to be produced
   size_t packageCount = 0;
-  /// Probability to loose a package
-  float packageLossProbability = 0.0;
   /// Number of consumer threads
   size_t consumerCount = 0;
   /// Delay of producer to create a package, negative for max random
@@ -35,12 +34,16 @@ class ProducerConsumerTest {
   int dispatcherDelay = 0;
   /// Delay of consumer to consume a package, negative for max random
   int consumerDelay = 0;
+  /// Probability of losing a package
+  float probability = 0.0;
 
  private:
   /// Producer of the simulated network messages
   ProducerTest* producer = nullptr;
   /// A dispatcher of the of the simulated network messages
   DispatcherTest* dispatcher = nullptr;
+  /// An assembler 
+  AssemblerTest* assembler = nullptr;
   /// Consumers of the simulated network messages
   std::vector<ConsumerTest*> consumers;
 

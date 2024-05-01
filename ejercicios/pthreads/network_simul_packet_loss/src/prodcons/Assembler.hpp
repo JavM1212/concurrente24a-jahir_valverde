@@ -7,6 +7,8 @@
 
 #include "Consumer.hpp"
 #include "Producer.hpp"
+#include <iostream>
+#include "../common/Util.hpp"
 
 /**
  * @brief An assembler is a worker of a assembly line. It receives incomplete
@@ -38,6 +40,12 @@ class Assembler
     , const ConsumingType& stopCondition = ConsumingType())
     : Consumer<ConsumingType>(consumingQueue, stopCondition)
     , Producer<ProducingType>(producingQueue) {
+  }
+
+  void consume(ConsumingType data) override { 
+    int ran = Util::random(1, 100);
+
+    std::cout << "ran: " << ran;
   }
 
   /// Destructor
