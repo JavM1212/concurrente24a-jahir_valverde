@@ -60,7 +60,11 @@ No hay forma de saber cual hilo sera desbloqueado por el scheduler. Ademas,
 tampoco se puede saber si al incrementar un semaforo, se desbloqueara o no un
 hilo en espera, dado que no se puede leer el valor del semaforo
 ---
-15. Barrera
+15. Barrera -> Mecanismo de concurrencia que consiste en manipular los hilos
+para que todos ejecuten determinada tarea entes que otra. Por ejemplo, si se
+tienen 5 hilos, que deben ejecutar la linea x y la linea y, una barrera entre
+x y y significa que los 5 hilos deben ejecutar x, y solo hasta que todos los 
+hilos hayan ejecutado la linea x, podran continuar con la linea y
 ---
 16. Variable de condición
 ---
