@@ -1,0 +1,13 @@
+procedure main:
+  shared constant skater_count = read_integer()
+  shared constant skater_capacity = read_integer()
+  shared can_skate := create_semaphore(skater_capacity)
+  create_threads(skater_count, skater)
+end procedure
+
+procedure skater:
+  // Concurrency-bounded region
+  wait(can_skate)
+  skate()
+  signal(can_skate)
+end procedure
