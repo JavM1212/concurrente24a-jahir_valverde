@@ -1,0 +1,40 @@
+procedure main:
+  // mutex para controlar la concurrencia y que solo pueda haber un escritor
+  // accediendo al medium
+  shared can_access_medium := create_semaphore(1)
+  // mutex para proteger la variable reading count
+  can_access_reading_count := create_semaphore(1) 
+  // conteo de cuanto estamos leyendo
+  shared reading_count := 0
+
+  while true:
+    case read_char() of:
+      'R': create_thread(reader)
+      'W': create_thread(writer)
+      EOF: return
+    end case
+  end while
+end procedure
+
+procedure reader:
+  wait(can_access_reading)
+  reading_count := reading_count + 1
+  if reading_count = 1 do
+    wait(can_access_medium)
+  end if
+  signal(can_access_reading)
+  read()
+  wait(can_access_reading)
+  reading_count := reading_count - 1
+  if reading_count = 0 do
+    signal(can_access_medium)
+  end if
+  signal(can_access_reading)
+  signal(can_access_medium)
+end procedure
+
+procedure writer:
+  wait(can_access_medium)
+  write()
+  signal(can_access_medium)
+end procedure
