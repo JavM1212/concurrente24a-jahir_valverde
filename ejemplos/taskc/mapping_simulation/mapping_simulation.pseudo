@@ -1,0 +1,20 @@
+procedure block(data, data_count) 
+  declare my_start := start(thread_number, data_count, thread_count)
+  declare my_finish := start(thread_number + 1, data_count, thread_count)
+  for index := my_start; index < my_finish; ++index
+    process(data[index])
+  end for
+end procedure
+
+procedure cyclic(data, data_count)
+  for index := thread_number; index < data_count; index += thread_count
+    process(data[index])
+  end for
+end procedure
+
+// dynamic:
+// 1) Una variable contadora protegida por un mutex. Esta 
+//    indica la proxima unidad de trabajo disponible.
+// 2) Poner las unidades de trabajo en un "Work Pool", crear los ejecutantes 
+//    elegidos, ellos van sacando unidades de la Work Pool, la cual es una cola
+//    thread safe. Esto es indeterministico.
