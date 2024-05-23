@@ -1,0 +1,20 @@
+procedure main:
+  declare thread_count := read_integer()
+
+  // array de semaforos
+  shared an_ready[] = create_semaphores(thread_count - 1, 0)
+
+  create_threads(thread_count, secondary)
+end procedure
+
+procedure secondary:
+  if rank > 0 do
+    wait(an_ready[rank - 1])
+  end if
+
+  statement a
+
+  if rank < thread_count do
+    signal(an_ready[rank])
+  end if
+end procedure
