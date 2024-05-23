@@ -3,3 +3,4 @@ bin
 build
 doc
 apuntes
+callgrind.out.*
