@@ -1,0 +1,46 @@
+procedure main()
+  // para esta solucion se asume que la funcion enter_room es thread safe
+
+  shared player1_ready := semaphore(0)
+  shared player2_ready := semaphore(0)
+  shared players_ready := semaphore(0)
+  shared clock_ready := semaphore(0)
+
+  create_thread(player1)
+  create_thread(player2)
+  create_thread(referee)
+end procedure
+
+procedure player1()
+  enter_room()
+
+  signal(player1_ready) // avisar que entro al centro deportivo
+  wait(clock_ready)
+
+  play_chess()
+end procedure
+
+procedure player2()
+  enter_room()
+
+
+  signal(player2_ready) // avisar que entro al centro deportivo
+  wait(clock_ready)
+
+  play_chess()
+end procedure
+
+procedure referee()
+  enter_room()
+
+  // esto no se va a quedar infinitamente porque el jugador 1 no hace un wait 
+  // antes del signal
+  wait(player1_ready) // esperar al jugador 1
+  wait(player2_ready) // esperar al jugador 2
+
+  set_clock()
+
+  // avisarle a ambos jugadores que el reloj esta listo
+  signal(clock_ready)
+  signal(clock_ready)
+end procedure
