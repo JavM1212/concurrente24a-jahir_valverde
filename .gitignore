@@ -4,3 +4,4 @@ build
 doc
 apuntes
 callgrind.out.*
+tests
