@@ -152,7 +152,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
 }
 
 /// imprimir los resultados
-void print_goldach_numbers(input_t* input, int64_t size) {
+void print_goldach_numbers(input_t* input) {
   // int64_t total_amount_of_sums = 0;
   // for (int64_t i = 0; i < size; i++) {  /// obtener el numero total de sumas
   //   total_amount_of_sums += goldbach_numbers[i]->amount_of_sums;
@@ -162,7 +162,6 @@ void print_goldach_numbers(input_t* input, int64_t size) {
   /*fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
   , total_amount_of_sums);*/
 
-  goldbach_number_t** goldbach_numbers = input->goldbach_numbers;
   goldbach_number_t* gold_to_print = 0;
 
   for (int64_t j = 0; j < input->size; j++) {
@@ -220,6 +219,5 @@ void print_goldach_numbers(input_t* input, int64_t size) {
       fprintf(stdout, "%" PRId64 ": %" PRId64 " sums\n", gold_to_print
         ->number, gold_to_print->amount_of_sums);
     }
-
   }
 }

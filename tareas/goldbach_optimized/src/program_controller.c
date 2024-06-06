@@ -54,7 +54,7 @@ void run(int argc, char* argv[]) {
   free(producer_thread);
 
   /// imprimir el array de goldbach_number_t
-  print_goldach_numbers(input, input->size);
+  print_goldach_numbers(input);
 
   /// liberar memoria que se necesito hasta el final
   free(input->threads);
