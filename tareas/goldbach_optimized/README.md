@@ -1,13 +1,13 @@
 # Descripcion del problema
 
-En esta entrega se busca implementar la solucion de la anterior pero de manera 
-paralela en vez de serial. En mi caso, para implementar la soluciòn concurrente
-usè mapeo estàtico, asignàndole a cada hilo una porciòn de la memoria 
-compartida.
+En esta entrega se busca implementar optimizaciones a la solución de la tarea
+de Goldbach Numbers. Partiendo desde la tarea01, la primera optimización es en
+el cálculo de las sumas de Goldbach. Posteriormente se cuenta la tarea02 como
+una optimización ya que se implementan hilos con mapeo por bloque. Luego
+se implementa una tercera optmización mapeo dinámico.
 
-Midiendo ambas soluciones (la serial y la concurrente), la concurrente resulta
-màs ràpida. Lo cual es lo esperado porque el trabajo està siendo divido
-y manejado al mismo tiempo por varios trabajadores.
+Los resultados (duración, speedup y eficiencia) se apuntan, grafican y analizan
+en el documento de reporte.
 
 ---
 
@@ -18,7 +18,7 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
 
 ### Perf
 
-`sudo perf stat make test ARGS=8 TESTS=tests_large`
+`sudo perf stat make test ARGS=8 TESTS=tests_large`  
 `sudo make clean`
 
 ### Corrido normal
