@@ -152,7 +152,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number) {
 }
 
 /// imprimir los resultados
-void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size) {
+void print_goldach_numbers(input_t* input, int64_t size) {
   // int64_t total_amount_of_sums = 0;
   // for (int64_t i = 0; i < size; i++) {  /// obtener el numero total de sumas
   //   total_amount_of_sums += goldbach_numbers[i]->amount_of_sums;
@@ -162,50 +162,64 @@ void print_goldach_numbers(goldbach_number_t** goldbach_numbers, int64_t size) {
   /*fprintf(stdout, "Total: %" PRId64 " numbers %" PRId64 " sums\n\n", size
   , total_amount_of_sums);*/
 
-  for (int64_t i = 0; i < size; i++) {
-    /// imprimir numeros cuyo valor absoluto es menor que 5
-    if (goldbach_numbers[i]->sums == 0 && goldbach_numbers[i]
-      ->amount_of_sums == 0) {
-      fprintf(stdout, "%" PRId64 ": NA\n", goldbach_numbers[i]->number);
+  goldbach_number_t** goldbach_numbers = input->goldbach_numbers;
+  goldbach_number_t* gold_to_print = 0;
+
+  for (int64_t j = 0; j < input->size; j++) {
+    for (int64_t k = 0; k < input->goldbach_numbers_index; k++) {
+      if (input->input_arr[j] == input->goldbach_numbers[k]->number) {
+        gold_to_print = input->goldbach_numbers[k];
+      }
+    }
+
+    if (!gold_to_print) {
       continue;
     }
 
+      /// imprimir numeros cuyo valor absoluto es menor que 5
+      if (gold_to_print->sums == 0 && gold_to_print
+        ->amount_of_sums == 0) {
+        fprintf(stdout, "%" PRId64 ": NA\n", gold_to_print->number);
+        continue;
+      }
+
 
     /// imprimir dependiendo de si es negativo o positivo
-    if (goldbach_numbers[i]->number < 0) {
-      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums: ", goldbach_numbers[i]
-        ->number, goldbach_numbers[i]->amount_of_sums);
-      if (goldbach_numbers[i]->number % 2 == 0) {
-        for (int64_t j = 0; j < goldbach_numbers[i]
+    if (gold_to_print->number < 0) {
+      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums: ", gold_to_print
+        ->number, gold_to_print->amount_of_sums);
+      if (gold_to_print->number % 2 == 0) {
+        for (int64_t j = 0; j < gold_to_print
           ->amount_of_sums * 2; j += 2) {
-          if (j + 2 == goldbach_numbers[i]->amount_of_sums * 2) {
-            fprintf(stdout, "%" PRId64 " + %" PRId64, goldbach_numbers[i]
-              ->sums[j + 0], goldbach_numbers[i]->sums[j + 1]);
+          if (j + 2 == gold_to_print->amount_of_sums * 2) {
+            fprintf(stdout, "%" PRId64 " + %" PRId64, gold_to_print
+              ->sums[j + 0], gold_to_print->sums[j + 1]);
           } else {
-            fprintf(stdout, "%" PRId64 " + %" PRId64 ", ", goldbach_numbers[i]
-              ->sums[j + 0], goldbach_numbers[i]->sums[j + 1]);
+            fprintf(stdout, "%" PRId64 " + %" PRId64 ", ", gold_to_print
+              ->sums[j + 0], gold_to_print->sums[j + 1]);
           }
         }
         fprintf(stdout, "\n");
       } else {
-        for (int64_t j = 0; j < goldbach_numbers[i]
+        for (int64_t j = 0; j < gold_to_print
           ->amount_of_sums * 3; j += 3) {
-          if (j + 3 == goldbach_numbers[i]->amount_of_sums * 3) {
+          if (j + 3 == gold_to_print->amount_of_sums * 3) {
             fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64
-              , goldbach_numbers[i]->sums[j + 0]
-              , goldbach_numbers[i]->sums[j + 1]
-              , goldbach_numbers[i]->sums[j + 2]);
+              , gold_to_print->sums[j + 0]
+              , gold_to_print->sums[j + 1]
+              , gold_to_print->sums[j + 2]);
           } else {
             fprintf(stdout, "%" PRId64 " + %" PRId64 " + %" PRId64 ", "
-              , goldbach_numbers[i]->sums[j + 0], goldbach_numbers[i]
-              ->sums[j + 1], goldbach_numbers[i]->sums[j + 2]);
+              , gold_to_print->sums[j + 0], gold_to_print
+              ->sums[j + 1], gold_to_print->sums[j + 2]);
           }
         }
         fprintf(stdout, "\n");
       }
     } else {
-      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums\n", goldbach_numbers[i]
-        ->number, goldbach_numbers[i]->amount_of_sums);
+      fprintf(stdout, "%" PRId64 ": %" PRId64 " sums\n", gold_to_print
+        ->number, gold_to_print->amount_of_sums);
     }
+
   }
 }
