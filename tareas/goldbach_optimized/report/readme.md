@@ -1,7 +1,7 @@
 # Documento de Reporte
 
 Cabe aclarar que cada número estudiado de la optmizacion, `Duración`, `Speedup`
-y `Eficiencia`, van a ser calculados en base a los datos de la version  
+y `Eficiencia`, van a ser calculados en base a los datos de la version
 serial no optmizada.
 
 Se puede encontrar el Google Sheets con las mediciones y gráficos en el
