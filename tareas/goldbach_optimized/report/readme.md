@@ -1,12 +1,12 @@
 # Documento de Reporte
 
-Cabe aclarar que cada numero estudiado de la optmizacion, `Duración`, `Speedup`
+Cabe aclarar que cada número estudiado de la optmizacion, `Duración`, `Speedup`
 y `Eficiencia`, van a ser calculados en base a los datos de la version  
 serial no optmizada.
 
-Se puede encontrar el Google Sheets con las mediciones y gráficos en el 
+Se puede encontrar el Google Sheets con las mediciones y gráficos en el
 siguiente link:
-https://docs.google.com/spreadsheets/d/1IaVuXf8_Lzvyyenxolq1bMZdYbxvOmKjDDDtBDgQb7k/edit?usp=sharing
+<https://docs.google.com/spreadsheets/d/1IaVuXf8_Lzvyyenxolq1bMZdYbxvOmKjDDDtBDgQb7k/edit?usp=sharing>
 
 ## Optimización 1: Serial
 
