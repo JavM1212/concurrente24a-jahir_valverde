@@ -16,8 +16,8 @@ siguiente link:
 
 ### Paso 2 (Serial)
 
-Al ver la imagen ![Design: ./img/kachegrind01.png](./img/kachegrind01.png), se
-puede apreciar que el 99 por ciento de la CPU es consumida por la función  
+Al ver la imagen de kcachegrind, ![Design: ./img/kachegrind01.png](./img/kachegrind01.png)  
+se puede apreciar que el 99 por ciento de la CPU es consumida por la función  
 calc_goldbach_numbers. Al ver el código fuente podemos observar que el triple
 for de la calculación para números impares consume él solo el 99.74% de ese  
 llamado en las líneas 68, 69 y 70.
@@ -92,7 +92,7 @@ optimización y en la versiòn serial. Primero se analizará el incremento de la
 velocidad, y luego el comportamiento de la eficiencia.  
 
 Al observar el gráfico 1,  
-![Design: ./img/grafico_duracion-speedup.png](./img/grafico_duracion-speedup.png)
+![Design: ./img/grafico_duracion-speedup.png](./img/grafico_duracion-speedup.png)  
 Se puede apreciar que en la versión serial hay una duración de 2310 segundos.
 Este es nuestro punto de comparación inicial para posteriores optimizaciones.
 
@@ -118,7 +118,7 @@ tedioso que con el mapeo por bloque a cambio de una recompensa que no vale la
 pena.  
 
 Al observar el gráfico 2,  
-![Design: ./img/grafico_speedup-eficiencia.png](./img/grafico_speedup-eficiencia.png)
+![Design: ./img/grafico_speedup-eficiencia.png](./img/grafico_speedup-eficiencia.png)  
 Se puede observar que la optmización 1 comparte el mismo speedup y eficiencia.
 Esto se debe a que la velocidad aumenta, pero el número de trabajadores es el  
 mismo (1). Por lo que al aplicar la fórmula de eficiencia se termina igualando
@@ -140,10 +140,10 @@ temas de escalabilidad y mantenimiento, esta es probablemente la peor
 optmización en términos de speedup y eficiencia, ya que hay otra versión más
 sencilla que hace prácticamente lo mismo.
 
-## GRado de Concurrencia
+## Grado de Concurrencia
 
 Al observar el gráfico
-![Design: ./img/grafico_speedup-eficiencia.png](./img/grafico_speedup-eficiencia.png)
+![Design: ./img/grafico_speedup-eficiencia.png](./img/grafico_speedup-eficiencia.png)  
 Se pueden observar varias consideraciones
 
 En primer lugar, la versión que alcanza un mayor incremento de la velocidad
