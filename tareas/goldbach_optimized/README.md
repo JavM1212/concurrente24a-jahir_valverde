@@ -27,14 +27,12 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
 
 ---
 
-## Creditos
+## Documento de Reporte
 
-Jahir Valverde - `jahir.valverde@ucr.ac.cr`
+[Design: ./report/readme.md](./report/readme.md)
 
 ---
 
-## Design
-[Design: ./design/README.md](./design/README.md)
+## Creditos
 
-## Documento de Reporte
-[Design: ./report/readme.md](./report/readme.md)
+Jahir Valverde - `jahir.valverde@ucr.ac.cr`
