@@ -29,7 +29,7 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
 
 ## Documento de Reporte
 
-[Design: ./report/readme.md](./report/readme.md)
+![Design: ./report/readme.md](./report/readme.md)
 
 ---
 
