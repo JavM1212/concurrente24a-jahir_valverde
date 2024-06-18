@@ -1,0 +1,51 @@
+// ¿Afecta el orden de creación de los equipos el resultado de la carrera de relevos? 
+// Respuesta: si, la impresion se ve alterada al hacer la ejecucion normal y la inversa
+
+procedure main(argc, argv[]): 
+    if argc = 4 then
+        shared team_count := integer(argv[1])
+        shared stage1_delay := integer(argv[2])
+        shared stage2_delay := integer(argv[3])
+        shared position := 0
+
+        shared start_barrier := create_barrier(team_count)
+        shared batons := create_semaphores(team_count, 0)
+        shared finish_mutex := create_mutexes(1)
+
+        #ifdef REVERSE_ORDER
+        for team := team_count to 1 step -1 do
+            create_thread(run_stage1, team)
+            create_thread(run_stage2, team)
+        #else
+        for team := 1 to team_count do
+            create_thread(run_stage1, team)
+            create_thread(run_stage2, team)
+        #endif
+
+    else
+        print "usage: relay_race team_count stage1_delay stage2_delay"
+    end if
+end procedure
+
+procedure run_stage1(team_number):
+    // Esperar a que todos los equipos estén listos
+    wait(start_barrier)
+    // Correr la primera etapa de la carrera
+    delay(stage1_delay)
+    // Dar la estafeta al compañero esperando
+    signal(baton[team_number])
+end procedure
+
+procedure run_stage2(team_number):
+    // Esperar a que mi compañero me pase la estafeta
+    wait(baton[team_number])
+    // Correr la segunda etapa de la carrera
+    delay(stage2_delay)
+    // Reclamar premio
+    wait(finish_mutex)
+        declare constant my_team_position = ++position
+        if my_team_position <= 3 then
+            print('Place ', my_team_position, ': team ', team_number)
+        end if
+    signal(finish_mutex)
+end procedure
