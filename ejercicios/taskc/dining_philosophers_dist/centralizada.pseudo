@@ -1,0 +1,37 @@
+procedure main(argc, argv[]):
+  if argc = 2 then
+    shared philosopher_count := integer(argv[1])
+    
+    shared chopsticks := create_semaphores(philosopher_count, 1)
+    shared waiter := create_semaphore(1)
+
+    for philosopher := 0 to philosopher_count - 1 do
+      create_thread(philosopher_dine, philosopher)
+    end for
+  else
+    print "usage: dining_philosophers philosopher_count"
+  end if
+end procedure
+
+procedure philosopher_dine(philosopher_number):
+  while true do
+    think()
+    wait(waiter)
+    wait(chopsticks[left(philosopher_number)])
+    wait(chopsticks[right(philosopher_number)])
+    
+    eat()
+
+    signal(chopsticks[left(philosopher_number)])
+    signal(chopsticks[right(philosopher_number)])
+    signal(waiter)
+  end while
+end procedure
+
+function left(philosopher_number):
+  return philosopher_number
+end function
+
+function right(philosopher_number):
+  return (philosopher_number + 1) % philosopher_count
+end function
