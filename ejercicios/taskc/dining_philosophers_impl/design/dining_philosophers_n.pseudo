@@ -1,0 +1,58 @@
+procedure main(argc, argv[]):
+  // Verificar que se haya proporcionado el número correcto de argumentos
+  if argc = 2 then
+    // Obtener el número de filósofos de los argumentos
+    shared philosopher_count := integer(argv[1])
+    // Calcular el número de palillos como el máximo entre el número de filósofos y 2
+    shared chopstick_count := max(philosopher_count, 2)
+    
+    // Crear un arreglo de semáforos para los palillos, inicializados en 1
+    shared chopsticks := create_semaphores(chopstick_count, 1)
+
+    // Crear un hilo para cada filósofo
+    for philosopher := 0 to philosopher_count - 1 do
+      create_thread(philosopher_dine, philosopher)
+    end for
+  else
+    // Imprimir mensaje de uso correcto si los argumentos no son correctos
+    print "usage: dining_philosophers philosopher_count"
+  end if
+end procedure
+
+procedure philosopher_dine(philosopher_number):
+  // Ciclo infinito donde el filósofo alterna entre pensar y comer
+  while true do
+    // El filósofo piensa
+    think()
+
+    // Alternar el orden de tomar los palillos para evitar interbloqueos
+    if philosopher_number % 2 == 0 then
+      // Filósofos con número par toman primero el palillo izquierdo
+      wait(chopsticks[left(philosopher_number, chopstick_count)])
+      // Luego toman el palillo derecho
+      wait(chopsticks[right(philosopher_number, chopstick_count)])
+    else
+      // Filósofos con número impar toman primero el palillo derecho
+      wait(chopsticks[right(philosopher_number, chopstick_count)])
+      // Luego toman el palillo izquierdo
+      wait(chopsticks[left(philosopher_number, chopstick_count)])
+    end if
+
+    // El filósofo come
+    eat()
+
+    // Después de comer, el filósofo libera los palillos
+    signal(chopsticks[left(philosopher_number, chopstick_count)])
+    signal(chopsticks[right(philosopher_number, chopstick_count)])
+  end while
+end procedure
+
+// Función para obtener el índice del palillo izquierdo de un filósofo
+function left(philosopher_number, chopstick_count):
+  return philosopher_number % chopstick_count
+end function
+
+// Función para obtener el índice del palillo derecho de un filósofo
+function right(philosopher_number, chopstick_count):
+  return (philosopher_number + 1) % chopstick_count
+end function
