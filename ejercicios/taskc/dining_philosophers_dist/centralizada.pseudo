@@ -1,10 +1,13 @@
 procedure main(argc, argv[]):
   if argc = 2 then
+    // Leer el número de filósofos
     shared philosopher_count := integer(argv[1])
     
+    // Crear semáforos para los palillos y el mesero
     shared chopsticks := create_semaphores(philosopher_count, 1)
     shared waiter := create_semaphore(1)
 
+    // Crear hilos para cada filósofo
     for philosopher := 0 to philosopher_count - 1 do
       create_thread(philosopher_dine, philosopher)
     end for
@@ -15,23 +18,30 @@ end procedure
 
 procedure philosopher_dine(philosopher_number):
   while true do
+    // El filósofo piensa
     think()
+    // Espera a que el mesero permita el acceso
     wait(waiter)
+    // Toma los palillos izquierdo y derecho
     wait(chopsticks[left(philosopher_number)])
     wait(chopsticks[right(philosopher_number)])
     
+    // El filósofo come
     eat()
-
+    
+    // Libera los palillos y notifica al mesero
     signal(chopsticks[left(philosopher_number)])
     signal(chopsticks[right(philosopher_number)])
     signal(waiter)
   end while
 end procedure
 
+// Función para obtener el palillo izquierdo
 function left(philosopher_number):
   return philosopher_number
 end function
 
+// Función para obtener el palillo derecho
 function right(philosopher_number):
   return (philosopher_number + 1) % philosopher_count
 end function

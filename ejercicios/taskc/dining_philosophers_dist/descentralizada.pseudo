@@ -1,41 +1,52 @@
 procedure main(argc, argv[]):
-if argc = 2 then
-  shared philosopher_count := integer(argv[1])
+  if argc = 2 then
+    // Leer el número de filósofos
+    shared philosopher_count := integer(argv[1])
 
-  shared chopsticks := create_semaphores(philosopher_count, 1)
-  shared mutex := create_semaphores(philosopher_count, 1)
+    // Crear semáforos para los palillos y mutex para sincronización
+    shared chopsticks := create_semaphores(philosopher_count, 1)
+    shared mutex := create_semaphores(philosopher_count, 1)
 
-  for philosopher := 0 to philosopher_count - 1 do
-    create_thread(philosopher_dine, philosopher)
-  end for
-else
-  print "usage: dining_philosophers philosopher_count"
-end if
+    // Crear hilos para cada filósofo
+    for philosopher := 0 to philosopher_count - 1 do
+      create_thread(philosopher_dine, philosopher)
+    end for
+  else
+    print "usage: dining_philosophers philosopher_count"
+  end if
 end procedure
 
 procedure philosopher_dine(philosopher_number):
-while true do
-  think()
+  while true do
+    // El filósofo piensa
+    think()
 
-  if philosopher_number % 2 == 0 then
-    wait(chopsticks[left(philosopher_number)])
-    wait(chopsticks[right(philosopher_number)])
-  else
-    wait(chopsticks[right(philosopher_number)])
-    wait(chopsticks[left(philosopher_number)])
-  end if
-  
-  eat()
+    // Alternar el orden de tomar los palillos para evitar interbloqueo
+    if philosopher_number % 2 == 0 then
+      // Filósofos con número par toman primero el palillo izquierdo
+      wait(chopsticks[left(philosopher_number)])
+      wait(chopsticks[right(philosopher_number)])
+    else
+      // Filósofos con número impar toman primero el palillo derecho
+      wait(chopsticks[right(philosopher_number)])
+      wait(chopsticks[left(philosopher_number)])
+    end if
+    
+    // El filósofo come
+    eat()
 
-  signal(chopsticks[left(philosopher_number)])
-  signal(chopsticks[right(philosopher_number)])
-end while
+    // Liberar los palillos
+    signal(chopsticks[left(philosopher_number)])
+    signal(chopsticks[right(philosopher_number)])
+  end while
 end procedure
 
+// Función para obtener el palillo izquierdo
 function left(philosopher_number):
-return philosopher_number
+  return philosopher_number
 end function
 
+// Función para obtener el palillo derecho
 function right(philosopher_number):
-return (philosopher_number + 1) % philosopher_count
+  return (philosopher_number + 1) % philosopher_count
 end function
