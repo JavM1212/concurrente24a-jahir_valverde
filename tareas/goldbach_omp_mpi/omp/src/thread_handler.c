@@ -5,14 +5,9 @@
 
 /// crear equipo de hilos
 void create_threads(input_t* input, int64_t thread_count) {
-  // for (int thread = 0; thread < thread_count; thread++) {
-    /// crear el hilo pasando por parametro el my_work correspondiente
-    // errno = pthread_create(&input->threads[thread], /*attr*/ NULL, consume
-    //   , /*arg*/ input);
-  // }
-
   #pragma omp parallel num_threads(thread_count) \
-    default(none) shared(input) {
+    default(none) shared(input)
+    {
     // mapeo dinamico
     #pragma omp for schedule(dynamic)
     for (int iteration = 0; iteration < input->size; ++iteration) {
