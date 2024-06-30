@@ -66,7 +66,7 @@ tienen 5 hilos, que deben ejecutar la linea x y la linea y, una barrera entre
 x y y significa que los 5 hilos deben ejecutar x, y solo hasta que todos los 
 hilos hayan ejecutado la linea x, podran continuar con la linea y
 ---
-16. Variable de condición
+16. Variable de condición -> Variable para la sincronización de hilos en un programa concurrente.
 ---
 17. Candado de lectura y escritura
 ---
@@ -78,11 +78,11 @@ independiente, y por lo tanto, de forma paralela.
 En el mapeo estatico la asignacion se conoce desde antes de la compilacion. En
 cambio el mapeo dinamico se asigna en tiempo de ejecucion.
 ---
-20. Incremento de velocidad
+20. Incremento de velocidad -> La relación de tiempo entre la ejecución de dos códigos distintos se determina al dividir el tiempo que tarda en ejecutarse el primer código entre el tiempo que tarda en ejecutarse el segundo código. En este contexto, el primer código es el serial, y el segundo el concurrente.
 ---
-21. Comunicación punto a punto entre procesos
+21. Comunicación punto a punto entre procesos -> Implica la transferencia de datos entre dos procesos específicos en un sistema, lo cual requiere identificar claramente tanto el proceso emisor como el receptor.
 ---
-22. Comunicación colectiva entre procesos
+22. Comunicación colectiva entre procesos -> Transferencia de información entre múltiples procesos simultáneamente, todos los procesos involucrados se comunican entre sí.
 ---
-23. Reducción
+23. Reducción -> Es un método empleado para fusionar los resultados obtenidos de operaciones ejecutadas por varios hilos en un único resultado. Se usa frecuentemente en tareas como sumas, multiplicaciones, encontrar el valor mínimo, máximo, mediana, y otras similares.
 ---
