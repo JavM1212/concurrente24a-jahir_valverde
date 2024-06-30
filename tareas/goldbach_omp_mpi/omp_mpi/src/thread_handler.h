@@ -12,7 +12,8 @@
  * @param goldbach_numbers estructura donde se van a almacenar las sumas 
  *        de goldbach
  */
-void create_threads(input_t* input, int64_t thread_count, int argc, char* argv[]);
+void create_threads(input_t* input, int64_t thread_count, int argc
+  , char* argv[]);
 
 /**
  * @brief cada hilo creado va a correr esta funcion la cual llama 

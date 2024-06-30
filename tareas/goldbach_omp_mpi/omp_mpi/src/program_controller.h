@@ -11,4 +11,4 @@
  */
 void run(int argc, char* argv[]);
 
-#endif // PROGRAM_CONTROLLER_H
+#endif  // PROGRAM_CONTROLLER_H
