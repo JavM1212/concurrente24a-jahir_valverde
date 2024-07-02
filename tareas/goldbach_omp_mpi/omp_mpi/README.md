@@ -23,7 +23,11 @@ Correr desde /concurrente24a-jahir_valverde/tareas/goldbach_serial
 
 ### Corrido normal
 
-`make clean && make && ./bin/goldbach_optimized 8 < tests_large/input020.txt`
+`make clean && make && ./bin/omp_mpi 8 < tests_large/input020.txt`
+
+### Corrido multiproceso
+
+`make clean && make && mpiexec -np 4 ./bin/omp_mpi 8 < tests_large/input020.txt`
 
 ---
 
