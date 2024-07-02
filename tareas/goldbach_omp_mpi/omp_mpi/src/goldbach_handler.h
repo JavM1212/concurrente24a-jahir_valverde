@@ -30,6 +30,7 @@ prime_numbers_t* calc_prime_numbers(int64_t number);
  *        Goldbach
  * @param size tamano del array goldbach_numbers*
  */
-void print_goldach_numbers(input_t* input);
+void print_goldach_numbers(input_t* input, int process_start
+  , int process_finish);
 
 bool is_prime(int64_t num);

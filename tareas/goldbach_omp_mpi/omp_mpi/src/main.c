@@ -3,8 +3,6 @@
 // @see `man feature_test_macros`
 #define _DEFAULT_SOURCE
 
-#include <mpi.h>
-
 #include "program_controller.h"
 
 /// llama a la funcion run (la cual tiene el flujo del programa) y calcula
